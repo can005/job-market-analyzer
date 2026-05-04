@@ -1,14 +1,15 @@
 import os
-import pandas as pd
-from ingestion.models import Base, Aggregate, Sector
-from ingestion.config import CLEAN_DATA_DIR, AGGREGATE_CSV,SECTOR_CSV
-from sqlalchemy import create_engine, Engine
-from sqlalchemy.orm import Session, DeclarativeBase
-from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.pool import QueuePool
-from dotenv import load_dotenv
 from typing import Type
 
+import pandas as pd
+from dotenv import load_dotenv
+from sqlalchemy import Engine, create_engine
+from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.orm import DeclarativeBase, Session
+from sqlalchemy.pool import QueuePool
+
+from ingestion.config import AGGREGATE_CSV, CLEAN_DATA_DIR, SECTOR_CSV
+from ingestion.models import Aggregate, Base, Sector
 
 load_dotenv()
 
@@ -39,7 +40,10 @@ def get_engine() -> Engine:
 BATCH_SIZE = 1000
 
 
-def bulk_upsert(session: Session, model: Type[DeclarativeBase], records: list, conflict_columns: list) -> None:
+def bulk_upsert(session: Session,
+                model: Type[DeclarativeBase], 
+                records: list, 
+                conflict_columns: list) -> None:
     for i in range(0, len(records), BATCH_SIZE):
         batch = records[i:i + BATCH_SIZE]
         stmt = insert(model).values(batch)

@@ -1,5 +1,7 @@
 import pandas as pd
-from ingestion.config import RAW_DATA_DIR, CLEAN_DATA_DIR, AGGREGATE_CSV,SECTOR_CSV
+
+from ingestion.config import AGGREGATE_CSV, CLEAN_DATA_DIR, RAW_DATA_DIR, SECTOR_CSV
+
 
 def clean_aggregate(df: pd.DataFrame) -> pd.DataFrame:
     df['date'] = pd.to_datetime(df['date'])

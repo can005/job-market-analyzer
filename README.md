@@ -1,7 +1,6 @@
 # Job Market Analyzer
 
-An end-to-end AI engineering project that combines labor market data pipelines, 
-RAG, multi-agent systems, and observability.
+An end-to-end AI engineering project that combines labor market data pipelines, RAG, multi-agent systems, and observability.
 
 ## Architecture
 - **Phase 1** — Data pipeline: ingestion, cleaning, PostgreSQL storage, Airflow orchestration
