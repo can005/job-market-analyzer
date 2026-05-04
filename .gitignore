@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.env
+data/
+*.csv
+.python-version
+.DS_Store
+.vscode/
