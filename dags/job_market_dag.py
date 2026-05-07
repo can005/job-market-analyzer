@@ -9,6 +9,7 @@ from ingestion.load import main as load_main
 
 def extract() -> None:
     import os
+
     from ingestion.config import AGGREGATE_CSV, RAW_DATA_DIR, SECTOR_CSV
     for f in [AGGREGATE_CSV, SECTOR_CSV]:
         path = RAW_DATA_DIR + f
