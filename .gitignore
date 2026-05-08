@@ -9,4 +9,5 @@ data/
 .vscode/
 config/
 logs/
+*.egg-info/
 requirements-dev.txt
