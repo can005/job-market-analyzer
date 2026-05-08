@@ -9,3 +9,4 @@ data/
 .vscode/
 config/
 logs/
+requirements-dev.txt
