@@ -4,6 +4,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 from ingestion.clean import main as clean_main
+from ingestion.hn_fetch import main as hn_fetch_main
 from ingestion.load import main as load_main
 
 
@@ -29,5 +30,7 @@ with DAG(
     t1 = PythonOperator(task_id="extract", python_callable=extract)
     t2 = PythonOperator(task_id="clean", python_callable=clean_main)
     t3 = PythonOperator(task_id="load", python_callable=load_main)
-
+    t4 = PythonOperator(task_id="hn_fetch", python_callable=hn_fetch_main)
+    
     t1 >> t2 >> t3
+    t4
