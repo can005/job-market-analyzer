@@ -1,57 +1,12 @@
-import os
-from typing import Type
-
 import pandas as pd
 from dotenv import load_dotenv
-from sqlalchemy import Engine, create_engine
-from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.orm import DeclarativeBase, Session
-from sqlalchemy.pool import QueuePool
+from sqlalchemy.orm import Session
 
 from ingestion.config import AGGREGATE_CSV, CLEAN_DATA_DIR, SECTOR_CSV
+from ingestion.db import bulk_upsert, get_engine
 from ingestion.models import Aggregate, Base, Sector
 
 load_dotenv()
-
-
-def validate_env() -> None:
-    required = ['DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_PORT', 'DB_NAME']
-    missing = [key for key in required if not os.getenv(key)]
-    if missing:
-        raise EnvironmentError(f"Missing environment variables: {missing}")
-
-
-def get_engine() -> Engine:
-    validate_env()
-    url = (
-        f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-        f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-    )
-    return create_engine(
-        url,
-        poolclass=QueuePool,
-        pool_size=5,
-        max_overflow=10,
-        pool_timeout=30,
-        pool_pre_ping=True,
-    )
-
-
-BATCH_SIZE = 1000
-
-
-def bulk_upsert(session: Session,
-                model: Type[DeclarativeBase], 
-                records: list, 
-                conflict_columns: list) -> None:
-    for i in range(0, len(records), BATCH_SIZE):
-        batch = records[i:i + BATCH_SIZE]
-        stmt = insert(model).values(batch)
-        stmt = stmt.on_conflict_do_nothing(index_elements=conflict_columns)
-        session.execute(stmt)
-        session.commit()
-        print(f"{model.__tablename__}: batch {i // BATCH_SIZE + 1} ({len(batch)} rows)")
-
 
 def load_aggregate(session: Session, df) -> None:
     records = df.to_dict(orient='records')
