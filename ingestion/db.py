@@ -8,6 +8,7 @@ from sqlalchemy.orm import DeclarativeBase, Session
 from sqlalchemy.pool import QueuePool
 
 from ingestion.config import UPSERT_BATCH_SIZE
+from ingestion.validators import validate_db_env
 
 load_dotenv()
 
@@ -24,19 +25,6 @@ def bulk_upsert(session: Session,
         print(f"{model.__tablename__}: batch {i // UPSERT_BATCH_SIZE + 1} ({len(batch)} rows)")
 
 
-
-def validate_db_env() -> None:
-    
-    required = ['DB_USER', 
-                'DB_PASSWORD', 
-                'DB_HOST', 
-                'DB_PORT', 
-                'DB_NAME', 
-                ]
-    missing = [key for key in required if not os.getenv(key)]
-    if missing:
-        raise EnvironmentError(f"Missing environment variables: {missing}")
-
 def get_engine() -> Engine:
     validate_db_env()
     url = (
@@ -52,3 +40,9 @@ def get_engine() -> Engine:
         pool_pre_ping=True,
     )
 
+def get_connection_string() -> str:
+    validate_db_env()
+    return (
+        f"postgresql+psycopg://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+        f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+    )

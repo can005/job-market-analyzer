@@ -14,4 +14,4 @@ HN_API_BASE_URL = "https://hn.algolia.com/api/v1/"
 HN_JOBS_FILENAME = "hn_jobs.json"
 HN_RAW_DATA_PATH = "data/raw/"
 
-
+OPENAI_EMBEDDING_MODEL = "text-embedding-3-small"

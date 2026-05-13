@@ -1,83 +1,50 @@
 import json
-import os
-from datetime import datetime
 
 from dotenv import load_dotenv
-from openai import OpenAI
-from sqlalchemy.orm import Session
+from langchain_openai import OpenAIEmbeddings
+from langchain_postgres import PGVector
 
-from ingestion.config import HN_JOBS_FILENAME, HN_RAW_DATA_PATH
-from ingestion.db import bulk_upsert, get_engine
-from ingestion.models import Base, HNJobPosting
+from ingestion.config import (
+    HN_JOB_POSTING_TABLE_NAME,
+    HN_JOBS_FILENAME,
+    HN_RAW_DATA_PATH,
+    OPENAI_EMBEDDING_MODEL,
+)
+from ingestion.db import get_connection_string
+from ingestion.validators import validate_openai_llm_env
 
-load_dotenv()
 
-def validate_llm_env() -> None:
-    required = ['OPENAI_API_KEY' ]
-    missing = [key for key in required if not os.getenv(key)]
-    if missing:
-        raise EnvironmentError(f"Missing environment variables: {missing}")
-    
-
-def load_and_batch_data() -> list:
-    json_data = {}
-    with open (HN_RAW_DATA_PATH +HN_JOBS_FILENAME, 'r') as f: 
+def load_hn_data() -> tuple[list, list]:
+    with open(HN_RAW_DATA_PATH + HN_JOBS_FILENAME, 'r') as f:
         json_data = json.load(f)
+    texts = [p["text"] for p in json_data]
+    metadatas = [{"author": p["author"], "created_at": p["created_at"]} for p in json_data]
+    return texts, metadatas
 
-    batches = []
-    if json_data:
-        for i in range(0, len(json_data), 500):
-            batch = json_data[i:i+500]
-            batches.append(batch)
-    
-    return batches
 
-def embed_batches(client: OpenAI, batches: list) -> list:
-    results = []
-    for batch in batches:
-        texts = [posting["text"] for posting in batch]
-        response = client.embeddings.create(
-            model="text-embedding-3-small",
-            input=texts
-        )
-        for posting, embedding_obj in zip(batch, response.data):
-            results.append({
-                **posting,
-                "embedding": embedding_obj.embedding
-            })
-    return results
-
-def load_hn_postings(session: Session, postings: list) -> None:
-    records = [
-        {
-            "id": p["id"],
-            "author": p["author"],
-            "text": p["text"],
-            "created_at": datetime.fromisoformat(p["created_at"].replace("Z", "+00:00")),
-            "embedding": p["embedding"]
-        }
-        for p in postings
-    ]
-    bulk_upsert(session, HNJobPosting, records, ["id"])
+def load_hn_postings(texts: list, metadatas: list) -> None:
+    PGVector.from_texts(
+        texts=texts,
+        metadatas=metadatas,
+        embedding=OpenAIEmbeddings(model=OPENAI_EMBEDDING_MODEL),
+        connection=get_connection_string(),
+        collection_name=HN_JOB_POSTING_TABLE_NAME,
+        pre_delete_collection=True,
+    )
 
 def main() -> None:
-
     try:
-        validate_llm_env()
-        batched_data = load_and_batch_data()
-        client = OpenAI()
-        embeddings = embed_batches(client, batches=batched_data) 
-        engine = get_engine()
-        Base.metadata.create_all(engine)
-        print("Database tables verified")
-        with Session(engine) as session:
-            load_hn_postings(session, embeddings)
-
+        load_dotenv()
+        validate_openai_llm_env()
+        texts, metadatas = load_hn_data()
+        print(f"Loaded {len(texts)} postings")
+        load_hn_postings(texts, metadatas)
         print("Done embedding")
     except EnvironmentError as e:
         raise EnvironmentError(f"Configuration error: {e}")
     except Exception as e:
         raise Exception(f"Unexpected error: {e}")
+
 
 if __name__ == '__main__':
     main()

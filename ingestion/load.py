@@ -6,7 +6,6 @@ from ingestion.config import AGGREGATE_CSV, CLEAN_DATA_DIR, SECTOR_CSV
 from ingestion.db import bulk_upsert, get_engine
 from ingestion.models import Aggregate, Base, Sector
 
-load_dotenv()
 
 def load_aggregate(session: Session, df) -> None:
     records = df.to_dict(orient='records')
@@ -23,6 +22,7 @@ def load_sector(session: Session, df) -> None:
 def main() -> None:
     print("Starting load...")
     try:
+        load_dotenv()
         engine = get_engine()
         Base.metadata.create_all(engine)
         print("Database tables verified")

@@ -5,4 +5,6 @@ python-dotenv==1.2.2
 apache-airflow==3.2.1
 beautifulsoup4==4.14.3
 openai==2.36.0
-pgvector==0.4.2
+pgvector==0.3.6
+langchain-postgres==0.0.17
+langchain-openai==1.2.1
