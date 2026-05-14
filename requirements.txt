@@ -8,3 +8,5 @@ openai==2.36.0
 pgvector==0.3.6
 langchain-postgres==0.0.17
 langchain-openai==1.2.1
+ragas==0.4.3
+datasets==4.8.5
