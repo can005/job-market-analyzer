@@ -33,7 +33,7 @@ def clean_html(text:str) -> str:
   return BeautifulSoup(text, "html.parser").get_text(separator=" ")
 
 def main() -> None:
-    results = search_hn("Ask+HN+Who+is+Hiring")
+    results = search_hn("Ask HN: Who is Hiring")
     thread_ids = [hit['objectID'] for hit in results['hits']]
     jobs = []
     for thread_id in thread_ids:
