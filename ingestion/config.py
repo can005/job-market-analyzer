@@ -1,5 +1,6 @@
 RAW_DATA_DIR = 'data/raw/'
 CLEAN_DATA_DIR = 'data/clean/'
+EVAL_RESULTS_DATA_DIR = 'data/eval/results'
 
 AGGREGATE_CSV = "aggregate_job_postings_US.csv"
 SECTOR_CSV = "job_postings_by_sector_US.csv"
@@ -16,3 +17,6 @@ HN_RAW_DATA_PATH = "data/raw/"
 
 OPENAI_EMBEDDING_MODEL = "text-embedding-3-small"
 OPENAI_CHAT_MODEL = "gpt-4o-mini"
+
+
+RAGAS_FILENAME_TEMPLATE = "ragas_{timestamp}.csv"

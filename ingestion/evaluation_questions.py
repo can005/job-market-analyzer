@@ -1,104 +1,100 @@
 EVAL_QUESTIONS = [
     {
-        "question": "Which companies are hiring for AI or machine learning engineering roles?",
+        "question": (
+            "What does Pathos AI do and what kind of AI engineering "
+            "role are they hiring for?"
+        ),
         "ground_truth": (
-            "Companies like Pathos AI and INDATA are hiring for AI engineering roles,"
-            " with positions focused on LLMs, agentic systems, and AI-native development." 
-            ),
+            "Pathos AI is an oncology biotech building AI tools for "
+            "drug development using large multimodal patient datasets, "
+            "and is hiring a Senior Software/AI Engineer."
+        ),
     },
     {
-        "question": "Which companies offer fully remote positions?",
+        "question": "Where is INDATA's AI Development Associate role located?",
         "ground_truth": (
-            "Several companies offer remote roles, including INDATA (Remote US or San Diego)"
-            " and We The Flywheel (Remote Worldwide or hybrid)."
-            ),
+            "INDATA's AI Development Associate role is Remote US or San Diego."
+        ),
     },
     {
-        "question": "What roles are available in Berlin?",
+        "question": "Where is We The Flywheel hiring?",
         "ground_truth": (
-            "NetBird and BIT Capital are hiring in Berlin, "
-            "offering software engineering and data platform roles respectively."
-            ),
+            "We The Flywheel offers Remote Worldwide or hybrid in Ho Chi Minh City."
+        ),
     },
     {
-        "question": "Which postings mention equity compensation?",
-        "ground_truth": (
-            "Pathos AI mentions equity as part of their "
-            "compensation package alongside a $180-200K salary range."
-            ),
+        "question": (
+            "What is the salary range for Pathos AI's Senior "
+            "Software/AI Engineer role?"
+        ),
+        "ground_truth": "Pathos AI offers $180,000–$200,000 plus equity.",
     },
     {
-        "question": "Which companies are working in biotech or healthcare?",
+        "question": (
+            "What is the salary range for INDATA's AI Development Associate role?"
+        ),
         "ground_truth": (
-            "Pathos AI is an oncology biotech building AI tools "
-            "for drug development using large multimodal patient datasets."
-            ),
+            "INDATA offers $95,000–$115,000 for the AI Development Associate role."
+        ),
     },
     {
-        "question": "Which roles are suitable for junior or early-career developers?",
-        "ground_truth": (
-            "INDATA is hiring an AI Development Associate at a junior level, "
-            "with a salary range of $95,000–$115,000."
-            ),
+        "question": "What seniority level is INDATA's AI Development Associate role?",
+        "ground_truth": "It is a junior-level role.",
     },
     {
-        "question": "Which companies are working on open source projects?",
+        "question": "What is NetBird's product and how popular is it on GitHub?",
         "ground_truth": (
-            "NetBird is hiring for an open source secure remote access product "
+            "NetBird is an open source secure remote access product "
             "with over 25,000 GitHub stars."
-            ),
+        ),
     },
     {
-        "question": "Which postings mention hybrid work arrangements?",
-        "ground_truth": (
-            "Pathos AI (NYC, 3-4 days onsite), NetBird (hybrid for some roles), "
-            "and We The Flywheel (Ho Chi Minh City hybrid) mention hybrid arrangements."
-            ),
+        "question": "What are Pathos AI's onsite requirements?",
+        "ground_truth": "Pathos AI requires 3-4 days onsite in NYC.",
     },
     {
-        "question": "Which roles involve infrastructure or data platform engineering?",
+        "question": (
+            "What is BIT Capital's Principal Engineer role focused on "
+            "and where is it based?"
+        ),
         "ground_truth": (
             "BIT Capital is hiring a Principal Engineer focused on "
-            "data and platform infrastructure for an asset management fund in Berlin."
-            ),
+            "data and platform infrastructure, based in Berlin."
+        ),
     },
     {
-        "question": "Which companies sponsor visas?",
-        "ground_truth": "Pathos AI explicitly mentions VISA sponsorship in their posting.",
+        "question": "Does Pathos AI sponsor visas?",
+        "ground_truth": "Yes, Pathos AI explicitly mentions VISA sponsorship.",
     },
     {
-        "question": "Which postings are for senior-level engineers?",
+        "question": "What seniority level is BIT Capital's Principal Engineer role?",
+        "ground_truth": "It is a senior-level role (Principal Engineer).",
+    },
+    {
+        "question": "What does BIT Capital do?",
         "ground_truth": (
-            "Pathos AI is hiring a Senior Software/AI Engineer and BIT Capital "
-            "is hiring a Principal Engineer, both targeting experienced candidates."
-            ),
+            "BIT Capital is an asset management fund in Berlin using AI "
+            "to drive investment returns."
+        ),
     },
     {
-        "question": "Which companies are in the fintech or asset management space?",
+        "question": "What tools does INDATA expect its AI developers to use?",
         "ground_truth": (
-            "BIT Capital is an asset management fund in Berlin "
-            "using AI to drive investment returns."
-            ),
+            "INDATA is building an agentic AI copilot and expects developers "
+            "whose primary tools are Claude Code or Cursor."
+        ),
     },
     {
-        "question": "Which roles focus on LLMs or agentic AI systems?",
+        "question": "What funding stage is NetBird at?",
         "ground_truth": (
-            "INDATA is building an agentic AI copilot and is "
-            "looking for developers whose primary tools are Claude Code or Cursor."
-            ),
+            "NetBird has raised a Series A and is building open source "
+            "secure connectivity infrastructure."
+        ),
     },
     {
-        "question": "Which companies are early stage or Series A?",
+        "question": "What compensation does Pathos AI offer beyond salary?",
         "ground_truth": (
-            "NetBird has raised a Series A and is building "
-            "open source secure connectivity infrastructure.",
-            ) 
-    },
-    {
-        "question": "Which postings mention specific salary ranges?",
-        "ground_truth": (
-            "Pathos AI offers $180,000–$200,000 plus equity. "
-            "INDATA offers $95,000–$115,000 for a junior role."
-            ),
+            "Pathos AI offers equity in addition to a $180,000–$200,000 salary range."
+        ),
     },
 ]

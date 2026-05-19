@@ -1,10 +1,26 @@
 from dotenv import load_dotenv
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_postgres import PGVector
 
 from ingestion.config import HN_JOB_POSTING_TABLE_NAME, OPENAI_CHAT_MODEL, OPENAI_EMBEDDING_MODEL
 from ingestion.db import get_connection_string
 from ingestion.validators import validate_openai_llm_env
+
+system_msg = (
+    "You answer questions about job postings using only the provided context. "
+    "Do not use outside knowledge. "
+    "If the context does not contain the answer, say so explicitly. "
+    "Be concise."
+)
+
+human_msg = "Context:\n{context}\n\nQuestion: {question}"
+
+
+prompt_template = ChatPromptTemplate.from_messages([
+    ("system", system_msg),
+    ("human", human_msg),
+])
 
 
 def get_vectorstore() -> PGVector:
@@ -26,11 +42,8 @@ def answer_question(prompt: str, k = 5) -> dict :
     context =  "\n\n".join(doc.page_content for doc in docs)
 
     llm = get_chat_llm()
-    response = llm.invoke(
-        f"Use the context below to answer the question. \n\n"
-        f"Context: \n{context}\n\n"
-        f"Question: {prompt}"
-    )
+    messages = prompt_template.format_messages(context=context, question=prompt)
+    response = llm.invoke(messages)
     return {
         "question": prompt,
         "answer": response.content,
