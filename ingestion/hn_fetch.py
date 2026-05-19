@@ -27,6 +27,7 @@ def search_hn(query:str,
 def fetch_thread(post_id:str) -> dict:
      url = f"{HN_API_BASE_URL}items/{post_id}"
      response = requests.get(url)
+     response.raise_for_status()
      return response.json()
 
 def clean_html(text:str) -> str:
