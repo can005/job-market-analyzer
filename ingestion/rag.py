@@ -3,9 +3,9 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_postgres import PGVector
 
-from ingestion.config import HN_JOB_POSTING_TABLE_NAME, OPENAI_CHAT_MODEL, OPENAI_EMBEDDING_MODEL
+from core.config import HN_JOB_POSTING_TABLE_NAME, OPENAI_CHAT_MODEL, OPENAI_EMBEDDING_MODEL
+from core.validators import validate_openai_llm_env
 from ingestion.db import get_connection_string
-from ingestion.validators import validate_openai_llm_env
 
 system_msg = (
     "You answer questions about job postings using only the provided context. "

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from ingestion.config import AGGREGATE_CSV, CLEAN_DATA_DIR, RAW_DATA_DIR, SECTOR_CSV
+from core.config import AGGREGATE_CSV, CLEAN_DATA_DIR, RAW_DATA_DIR, SECTOR_CSV
 
 
 def clean_aggregate(df: pd.DataFrame) -> pd.DataFrame:

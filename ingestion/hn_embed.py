@@ -4,14 +4,14 @@ from dotenv import load_dotenv
 from langchain_openai import OpenAIEmbeddings
 from langchain_postgres import PGVector
 
-from ingestion.config import (
+from core.config import (
     HN_JOB_POSTING_TABLE_NAME,
     HN_JOBS_FILENAME,
     HN_RAW_DATA_PATH,
     OPENAI_EMBEDDING_MODEL,
 )
+from core.validators import validate_openai_llm_env
 from ingestion.db import get_connection_string
-from ingestion.validators import validate_openai_llm_env
 
 
 def load_hn_data() -> tuple[list, list]:

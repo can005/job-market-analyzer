@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 
-from ingestion.config import HN_API_BASE_URL, HN_JOBS_FILENAME, HN_RAW_DATA_PATH
+from core.config import HN_API_BASE_URL, HN_JOBS_FILENAME, HN_RAW_DATA_PATH
 
 
 def search_hn(query:str, 

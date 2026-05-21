@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from sqlalchemy import Column, DateTime, Float, Integer, String, UniqueConstraint
 from sqlalchemy.orm import declarative_base
 
-from ingestion.config import AGGREGATE_TABLE_NAME, SECTOR_TABLE_NAME
+from core.config import AGGREGATE_TABLE_NAME, SECTOR_TABLE_NAME
 
 Base = declarative_base()
 

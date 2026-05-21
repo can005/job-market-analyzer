@@ -3,8 +3,8 @@ from datetime import datetime
 
 from airflow.decorators import dag, task
 
+from core.config import AGGREGATE_CSV, RAW_DATA_DIR, SECTOR_CSV
 from ingestion.clean import main as clean_main
-from ingestion.config import AGGREGATE_CSV, RAW_DATA_DIR, SECTOR_CSV
 from ingestion.load import main as load_main
 
 

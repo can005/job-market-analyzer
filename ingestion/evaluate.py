@@ -13,14 +13,14 @@ from ragas.metrics import (
     ResponseRelevancy,
 )
 
-from ingestion.config import (
+from core.config import (
     OPENAI_CHAT_MODEL,
     OPENAI_EMBEDDING_MODEL,
     RAGAS_FILENAME_TEMPLATE,
 )
+from core.validators import validate_openai_llm_env
 from ingestion.evaluation_questions import EVAL_QUESTIONS
 from ingestion.rag import answer_question
-from ingestion.validators import validate_openai_llm_env
 
 
 def build_eval_dataset(eval_questions: list[dict]) -> EvaluationDataset:

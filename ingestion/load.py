@@ -2,7 +2,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 
-from ingestion.config import AGGREGATE_CSV, CLEAN_DATA_DIR, SECTOR_CSV
+from core.config import AGGREGATE_CSV, CLEAN_DATA_DIR, SECTOR_CSV
 from ingestion.db import bulk_upsert, get_engine
 from ingestion.models import Aggregate, Base, Sector
 

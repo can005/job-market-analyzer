@@ -7,8 +7,8 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import DeclarativeBase, Session
 from sqlalchemy.pool import QueuePool
 
-from ingestion.config import UPSERT_BATCH_SIZE
-from ingestion.validators import validate_db_env
+from core.config import UPSERT_BATCH_SIZE
+from core.validators import validate_db_env, validate_readonly_db_env
 
 load_dotenv()
 
@@ -39,6 +39,14 @@ def get_engine() -> Engine:
         pool_timeout=30,
         pool_pre_ping=True,
     )
+
+def get_readonly_engine() -> Engine:
+    validate_readonly_db_env()
+    url = (
+        f"postgresql+psycopg2://{os.getenv('RO_DB_USER')}:{os.getenv('RO_DB_PASSWORD')}"
+        f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+    )
+    return create_engine(url, poolclass=QueuePool, pool_pre_ping=True)
 
 def get_connection_string() -> str:
     validate_db_env()
