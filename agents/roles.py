@@ -1,8 +1,8 @@
 from langchain.agents import create_agent
-from langchain_core.messages import HumanMessage, ToolMessage
+from langchain_core.messages import HumanMessage
 
 from agents.schemas import CandidatesSchema, ScoreSchema
-from agents.tools import search_hn_job_postings
+from agents.tools import collect_tool_output, search_hn_job_postings
 from core.config import (
     SCORE_DIMENSIONS,
     SCORE_MAX_CANDIDATES,
@@ -39,9 +39,7 @@ def _find(profile: dict) -> str:
     result = agent.invoke(
         {"messages": [HumanMessage(f"Candidate profile: {profile}")]}
     )
-    tool_msgs = [m.content for m in result["messages"]
-                 if isinstance(m, ToolMessage)]
-    return "\n\n".join(tool_msgs)
+    return collect_tool_output(result)
 
 
 

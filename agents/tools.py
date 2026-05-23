@@ -1,5 +1,6 @@
 import re
 
+from langchain_core.messages import ToolMessage
 from langchain_core.tools import tool
 from sqlalchemy import text
 
@@ -15,6 +16,12 @@ _WRITE_KEYWORDS = re.compile(
     re.IGNORECASE,
 )
 
+
+def collect_tool_output(result: dict) -> str:
+    return "\n\n".join(
+        m.content for m in result["messages"]
+        if isinstance(m, ToolMessage)
+    )
 
 def _guard_select(sql: str) -> str:
     stripped = sql.strip().rstrip(";").strip()
@@ -67,3 +74,22 @@ def search_hn_job_postings(query: str, k: int = 25) -> str:
     for i, doc in enumerate(docs):
         blocks.append(f"[position {i}]\n{doc.page_content}")
     return "\n\n".join(blocks)
+
+@tool
+def list_market_dimensions() -> str:
+    """List the valid filter values for the Indeed market tables: the available
+    'variable' values, job countries, and sector names. Call this BEFORE
+    query_job_postings so WHERE filters use real values, not guesses."""
+    engine = get_readonly_engine()
+    with engine.connect() as conn:
+        variables = [r[0] for r in conn.execute(
+            text("SELECT DISTINCT variable FROM job_postings_aggregate"))]
+        countries = [r[0] for r in conn.execute(
+            text("SELECT DISTINCT job_country FROM job_postings_aggregate"))]
+        sectors = [r[0] for r in conn.execute(
+            text("SELECT DISTINCT sector_name FROM job_postings_by_sector ORDER BY sector_name"))]
+    return (
+        f"variables: {variables}\n"
+        f"countries: {countries}\n"
+        f"sectors: {sectors}"
+    )

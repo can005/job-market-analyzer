@@ -11,3 +11,4 @@ config/
 logs/
 *.egg-info/
 requirements-dev.txt
+dev_checks/
