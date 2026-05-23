@@ -20,3 +20,28 @@ OPENAI_CHAT_MODEL = "gpt-4o-mini"
 
 
 RAGAS_FILENAME_TEMPLATE = "ragas_{timestamp}.csv"
+
+
+SCORE_DIMENSIONS = (
+    "skills_match", 
+    "seniority_match", 
+    "domain_match", 
+    "logistics_match"
+)
+
+SCORE_WEIGHTS = {
+    "skills_match":     0.40,
+    "seniority_match":  0.25,
+    "domain_match":     0.20,
+    "logistics_match":  0.15,
+}
+
+THRESHOLD_BANDS = (
+    (4.0, "strong"),
+    (2.5, "moderate"),
+    (0.0, "weak"),
+)
+
+PROFILE_FIELDS = ("skills", "seniority", "domain", "location")
+
+SCORE_MAX_CANDIDATES = 5
