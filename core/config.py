@@ -42,6 +42,6 @@ THRESHOLD_BANDS = (
     (0.0, "weak"),
 )
 
-PROFILE_FIELDS = ("skills", "seniority", "domain", "location")
+PROFILE_FIELDS = ("skills", "domain", "logistics")
 
 SCORE_MAX_CANDIDATES = 5

@@ -1,13 +1,13 @@
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 
-from agents.schemas import MarketSchema
 from agents.tools import (
     collect_tool_output,
     list_market_dimensions,
     query_job_postings,
 )
 from core.llm import get_chat_llm, get_structured_llm
+from core.schemas import MarketSchema
 
 _MARKET_SYS = (
     "You answer job-market TREND questions using the Indeed index tables "

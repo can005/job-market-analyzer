@@ -41,3 +41,12 @@ def validate_profile(profile: dict) -> None:
     missing = [f for f in PROFILE_FIELDS if not profile.get(f)]
     if missing:
         raise ValueError(f"profile missing required fields: {missing}")
+
+    names = [entry["skill"].strip().lower() for entry in profile["skills"]]
+    seen, duplicates = set(), []
+    for name in names:
+        if name in seen:
+            duplicates.append(name)
+        seen.add(name)
+    if duplicates:
+        raise ValueError(f"profile has duplicate skills: {duplicates}")

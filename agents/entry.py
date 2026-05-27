@@ -1,7 +1,7 @@
 from langchain_core.messages import HumanMessage
 
-from agents.schemas import RequestRoute
 from core.llm import get_structured_llm
+from core.schemas import RequestRoute
 from core.validators import validate_profile
 
 ROUTE_TO_PLAN = {
