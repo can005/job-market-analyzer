@@ -71,3 +71,20 @@ class MarketSchema(BaseModel):
 # --- Entry classification → drives plan ----------------------------------
 class RequestRoute(BaseModel):
     route: Literal["roles_only", "market_only", "market_then_roles"]
+
+
+# --- Seam boundary: result + typed exceptions ----------------------------
+class AgentResult(BaseModel):
+    status: Literal["ok", "partial", "error"]
+    scored: list[dict] | None = None           
+    market_findings: list[dict] | None = None              
+    run_id: str | None = None                 
+    run_url: str | None = None
+
+
+class NoResultsError(Exception):
+    """Raised by run() when no planned worker produced data."""
+
+
+class InvalidSeamInputError(Exception):
+    """Raised by run() for invalid seam input (e.g. empty question)."""

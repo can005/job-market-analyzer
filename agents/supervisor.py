@@ -18,7 +18,9 @@ def supervisor_node(state: dict) -> dict:
 
 
 def route_next(state: dict) -> str:
+    worker_status = state.get("worker_status", {})
     for field in state["plan"]:
-        if not state.get(field):
-            return FIELD_TO_WORKER[field]
+        worker = FIELD_TO_WORKER[field]
+        if not state.get(field) and worker_status.get(worker) != "failed":
+            return worker
     return END

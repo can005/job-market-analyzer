@@ -50,3 +50,14 @@ def validate_profile(profile: dict) -> None:
         seen.add(name)
     if duplicates:
         raise ValueError(f"profile has duplicate skills: {duplicates}")
+    
+
+def validate_langsmith_env() -> None:
+    required = [
+        'LANGSMITH_TRACING',
+        'LANGSMITH_API_KEY',
+        'LANGSMITH_PROJECT',
+    ]
+    missing = [key for key in required if not os.getenv(key)]
+    if missing:
+        raise EnvironmentError(f"Missing environment variables: {missing}")

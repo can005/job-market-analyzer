@@ -1,6 +1,7 @@
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 
+from agents.supervisor import MARKET
 from agents.tools import (
     collect_tool_output,
     list_market_dimensions,
@@ -43,7 +44,9 @@ def _structure(query_text: str) -> list:
 
 
 def market_node(state: dict) -> dict:
-    question = state["messages"][-1].content
-    query_text = _gather(question)
-    findings = _structure(query_text)
-    return {"market_findings": [f.model_dump() for f in findings]}
+    try:
+        query_text = _gather(state["question"])
+        findings = _structure(query_text)
+        return {"market_findings": [f.model_dump() for f in findings]}
+    except Exception:
+        return {"worker_status": {MARKET: "failed"}}

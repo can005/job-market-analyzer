@@ -21,10 +21,10 @@ _CLASSIFY_SYS = (
 def entry_node(state: dict) -> dict:
     validate_profile(state.get("profile"))
 
-    last = state["messages"][-1].content
     llm = get_structured_llm(RequestRoute)
     route = llm.invoke(
-        [{"role": "system", "content": _CLASSIFY_SYS}, HumanMessage(last)]
+        [{"role": "system", "content": _CLASSIFY_SYS},
+          HumanMessage(state["question"])]
     ).route
 
     return {"plan": ROUTE_TO_PLAN[route]}

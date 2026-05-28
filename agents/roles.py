@@ -1,6 +1,7 @@
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 
+from agents.supervisor import ROLES
 from agents.tools import collect_tool_output, search_hn_job_postings
 from core.config import (
     SCORE_DIMENSIONS,
@@ -144,8 +145,11 @@ def _classify(candidate, score: ScoreSchema) -> dict:
 
 
 def roles_node(state: dict) -> dict:
-    profile = state["profile"]
-    search_text = _find(profile)
-    candidates = _extract(search_text, profile)[:SCORE_MAX_CANDIDATES]
-    scored = [_classify(c, _score_one(c, profile)) for c in candidates]
-    return {"scored": scored}
+    try:
+        profile = state["profile"]
+        search_text = _find(profile)
+        candidates = _extract(search_text, profile)[:SCORE_MAX_CANDIDATES]
+        scored = [_classify(c, _score_one(c, profile)) for c in candidates]
+        return {"scored": scored}
+    except Exception:
+        return {"worker_status": {ROLES: "failed"}}
