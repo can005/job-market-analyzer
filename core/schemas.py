@@ -33,6 +33,7 @@ class Candidate(BaseModel):
 
 class CandidatesSchema(BaseModel):
     """Structured-output target for the find call (wrapper holds the list)."""
+
     candidates: list[Candidate]
 
 
@@ -76,9 +77,9 @@ class RequestRoute(BaseModel):
 # --- Seam boundary: result + typed exceptions ----------------------------
 class AgentResult(BaseModel):
     status: Literal["ok", "partial", "error"]
-    scored: list[dict] | None = None           
-    market_findings: list[dict] | None = None              
-    run_id: str | None = None                 
+    scored: list[dict] | None = None
+    market_findings: list[dict] | None = None
+    run_id: str | None = None
     run_url: str | None = None
 
 

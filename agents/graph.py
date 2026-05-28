@@ -38,12 +38,7 @@ def build_graph():
 
 @traceable(name="job_market_analyzer.run")
 def run(
-    graph,
-    question: str,
-    profile: Profile,
-    *,
-    trace: bool = False,
-    surface: str = "dev"
+    graph, question: str, profile: Profile, *, trace: bool = False, surface: str = "dev"
 ) -> AgentResult:
     validate_langsmith_env()
     if not question or not question.strip():
@@ -56,8 +51,8 @@ def run(
     }
     config = {
         "recursion_limit": RECURSION_LIMIT,
-        "tags": [surface], 
-        "metadata": {"surface": surface}
+        "tags": [surface],
+        "metadata": {"surface": surface},
     }
 
     with ls.tracing_context(enabled=trace):
@@ -65,28 +60,35 @@ def run(
 
     plan = final.get("plan", [])
     filled = [f for f in plan if final.get(f)]
-    failed_workers = [FIELD_TO_WORKER[f] for f in plan
-                      if final.get("worker_status", {}).get(FIELD_TO_WORKER[f]) == "failed"]
+    failed_workers = [
+        FIELD_TO_WORKER[f]
+        for f in plan
+        if final.get("worker_status", {}).get(FIELD_TO_WORKER[f]) == "failed"
+    ]
 
     if plan and not filled:
         raise NoResultsError(f"no planned worker produced data; failed={failed_workers}")
 
     status = "ok" if len(filled) == len(plan) else "partial"
-    return _result(status=status, scored=final.get("scored"),
-                   market_findings=final.get("market_findings"), trace=trace)
+    return _result(
+        status=status,
+        scored=final.get("scored"),
+        market_findings=final.get("market_findings"),
+        trace=trace,
+    )
 
 
-def _result(*,
-            status, 
-            scored=None,
-            market_findings=None,
-            error=None, 
-            trace: bool
-) -> AgentResult:
+def _result(*, status, scored=None, market_findings=None, error=None, trace: bool) -> AgentResult:
     run_id, run_url = None, None
     if trace:
         rt = get_current_run_tree()
         if rt is not None:
             run_id, run_url = str(rt.id), rt.get_url()
-    return AgentResult(status=status, scored=scored, market_findings=market_findings,
-                       error=error, run_id=run_id, run_url=run_url)
+    return AgentResult(
+        status=status,
+        scored=scored,
+        market_findings=market_findings,
+        error=error,
+        run_id=run_id,
+        run_url=run_url,
+    )

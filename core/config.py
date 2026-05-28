@@ -1,6 +1,6 @@
-RAW_DATA_DIR = 'data/raw/'
-CLEAN_DATA_DIR = 'data/clean/'
-EVAL_RESULTS_DATA_DIR = 'data/eval/results'
+RAW_DATA_DIR = "data/raw/"
+CLEAN_DATA_DIR = "data/clean/"
+EVAL_RESULTS_DATA_DIR = "data/eval/results"
 
 AGGREGATE_CSV = "aggregate_job_postings_US.csv"
 SECTOR_CSV = "job_postings_by_sector_US.csv"
@@ -22,18 +22,13 @@ OPENAI_CHAT_MODEL = "gpt-4o-mini"
 RAGAS_FILENAME_TEMPLATE = "ragas_{timestamp}.csv"
 
 
-SCORE_DIMENSIONS = (
-    "skills_match", 
-    "seniority_match", 
-    "domain_match", 
-    "logistics_match"
-)
+SCORE_DIMENSIONS = ("skills_match", "seniority_match", "domain_match", "logistics_match")
 
 SCORE_WEIGHTS = {
-    "skills_match":     0.40,
-    "seniority_match":  0.25,
-    "domain_match":     0.20,
-    "logistics_match":  0.15,
+    "skills_match": 0.40,
+    "seniority_match": 0.25,
+    "domain_match": 0.20,
+    "logistics_match": 0.15,
 }
 
 THRESHOLD_BANDS = (

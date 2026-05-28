@@ -12,7 +12,6 @@ SCORED = "scored"
 FIELD_TO_WORKER = {MARKET_FINDINGS: MARKET, SCORED: ROLES}
 
 
-
 def supervisor_node(state: dict) -> dict:
     return state
 

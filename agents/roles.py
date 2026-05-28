@@ -93,17 +93,17 @@ def _find(profile: dict) -> str:
         tools=[search_hn_job_postings],
         system_prompt=_FIND_SYS,
     )
-    result = agent.invoke(
-        {"messages": [HumanMessage(f"Candidate profile: {profile}")]}
-    )
+    result = agent.invoke({"messages": [HumanMessage(f"Candidate profile: {profile}")]})
     return collect_tool_output(result)
 
 
 def _extract(search_text: str, profile: dict) -> list:
     llm = get_structured_llm(CandidatesSchema)
     out = llm.invoke(
-        [{"role": "system", "content": _EXTRACT_SYS},
-         HumanMessage(f"Profile: {profile}\n\nSearch results:\n{search_text}")]
+        [
+            {"role": "system", "content": _EXTRACT_SYS},
+            HumanMessage(f"Profile: {profile}\n\nSearch results:\n{search_text}"),
+        ]
     )
     return out.candidates
 
@@ -111,20 +111,20 @@ def _extract(search_text: str, profile: dict) -> list:
 def _score_one(candidate, profile: dict) -> ScoreSchema:
     llm = get_structured_llm(ScoreSchema)
     return llm.invoke(
-        [{"role": "system", "content": _SCORE_SYS},
-         HumanMessage(
-             f"Profile: {profile}\n\n"
-             f"Required skills: {[rs.model_dump() for rs in candidate.required_skills]}\n\n"
-             f"Posting:\n{candidate.raw_text}"
-         )]
+        [
+            {"role": "system", "content": _SCORE_SYS},
+            HumanMessage(
+                f"Profile: {profile}\n\n"
+                f"Required skills: {[rs.model_dump() for rs in candidate.required_skills]}\n\n"
+                f"Posting:\n{candidate.raw_text}"
+            ),
+        ]
     )
 
 
 def _classify(candidate, score: ScoreSchema) -> dict:
     seniority_scores = [s.score for s in score.seniority_match]
-    seniority_avg = (
-        sum(seniority_scores) / len(seniority_scores) if seniority_scores else 0
-    )
+    seniority_avg = sum(seniority_scores) / len(seniority_scores) if seniority_scores else 0
 
     dims = {
         "skills_match": score.skills_match,

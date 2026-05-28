@@ -18,10 +18,8 @@ _WRITE_KEYWORDS = re.compile(
 
 
 def collect_tool_output(result: dict) -> str:
-    return "\n\n".join(
-        m.content for m in result["messages"]
-        if isinstance(m, ToolMessage)
-    )
+    return "\n\n".join(m.content for m in result["messages"] if isinstance(m, ToolMessage))
+
 
 def _guard_select(sql: str) -> str:
     stripped = sql.strip().rstrip(";").strip()
@@ -58,6 +56,7 @@ def query_job_postings(sql: str) -> str:
     body = "\n".join(" | ".join(str(v) for v in row) for row in rows)
     return f"{header}\n{body}"
 
+
 @tool
 def search_hn_job_postings(query: str, k: int = 25) -> str:
     """Semantic search over Hacker News 'Who is hiring' job postings. Returns the
@@ -75,6 +74,7 @@ def search_hn_job_postings(query: str, k: int = 25) -> str:
         blocks.append(f"[position {i}]\n{doc.page_content}")
     return "\n\n".join(blocks)
 
+
 @tool
 def list_market_dimensions() -> str:
     """List the valid filter values for the Indeed market tables: the available
@@ -82,14 +82,17 @@ def list_market_dimensions() -> str:
     query_job_postings so WHERE filters use real values, not guesses."""
     engine = get_readonly_engine()
     with engine.connect() as conn:
-        variables = [r[0] for r in conn.execute(
-            text("SELECT DISTINCT variable FROM job_postings_aggregate"))]
-        countries = [r[0] for r in conn.execute(
-            text("SELECT DISTINCT job_country FROM job_postings_aggregate"))]
-        sectors = [r[0] for r in conn.execute(
-            text("SELECT DISTINCT sector_name FROM job_postings_by_sector ORDER BY sector_name"))]
-    return (
-        f"variables: {variables}\n"
-        f"countries: {countries}\n"
-        f"sectors: {sectors}"
-    )
+        variables = [
+            r[0] for r in conn.execute(text("SELECT DISTINCT variable FROM job_postings_aggregate"))
+        ]
+        countries = [
+            r[0]
+            for r in conn.execute(text("SELECT DISTINCT job_country FROM job_postings_aggregate"))
+        ]
+        sectors = [
+            r[0]
+            for r in conn.execute(
+                text("SELECT DISTINCT sector_name FROM job_postings_by_sector ORDER BY sector_name")
+            )
+        ]
+    return f"variables: {variables}\ncountries: {countries}\nsectors: {sectors}"

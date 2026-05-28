@@ -23,8 +23,7 @@ def entry_node(state: dict) -> dict:
 
     llm = get_structured_llm(RequestRoute)
     route = llm.invoke(
-        [{"role": "system", "content": _CLASSIFY_SYS},
-          HumanMessage(state["question"])]
+        [{"role": "system", "content": _CLASSIFY_SYS}, HumanMessage(state["question"])]
     ).route
 
     return {"plan": ROUTE_TO_PLAN[route]}

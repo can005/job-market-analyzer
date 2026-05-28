@@ -8,15 +8,15 @@ from ingestion.models import Aggregate, Base, Sector
 
 
 def load_aggregate(session: Session, df) -> None:
-    records = df.to_dict(orient='records')
+    records = df.to_dict(orient="records")
     print(f"Loading {len(records)} rows into {Aggregate.__tablename__}")
-    bulk_upsert(session, Aggregate, records, ['date', 'job_country', 'variable'])
+    bulk_upsert(session, Aggregate, records, ["date", "job_country", "variable"])
 
 
 def load_sector(session: Session, df) -> None:
-    records = df.to_dict(orient='records')
+    records = df.to_dict(orient="records")
     print(f"Loading {len(records)} rows into {Sector.__tablename__}")
-    bulk_upsert(session, Sector, records, ['date', 'job_country', 'sector_name', 'variable'])
+    bulk_upsert(session, Sector, records, ["date", "job_country", "sector_name", "variable"])
 
 
 def main() -> None:
@@ -43,6 +43,7 @@ def main() -> None:
         raise EnvironmentError(f"Configuration error: {e}")
     except Exception as e:
         raise Exception(f"Unexpected error: {e}")
-    
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     main()

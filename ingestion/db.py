@@ -12,12 +12,12 @@ from core.validators import validate_db_env, validate_readonly_db_env
 
 load_dotenv()
 
-def bulk_upsert(session: Session,
-                model: Type[DeclarativeBase], 
-                records: list, 
-                conflict_columns: list) -> None:
+
+def bulk_upsert(
+    session: Session, model: Type[DeclarativeBase], records: list, conflict_columns: list
+) -> None:
     for i in range(0, len(records), UPSERT_BATCH_SIZE):
-        batch = records[i:i + UPSERT_BATCH_SIZE]
+        batch = records[i : i + UPSERT_BATCH_SIZE]
         stmt = insert(model).values(batch)
         stmt = stmt.on_conflict_do_nothing(index_elements=conflict_columns)
         session.execute(stmt)
@@ -40,6 +40,7 @@ def get_engine() -> Engine:
         pool_pre_ping=True,
     )
 
+
 def get_readonly_engine() -> Engine:
     validate_readonly_db_env()
     url = (
@@ -47,6 +48,7 @@ def get_readonly_engine() -> Engine:
         f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
     )
     return create_engine(url, poolclass=QueuePool, pool_pre_ping=True)
+
 
 def get_connection_string() -> str:
     validate_db_env()

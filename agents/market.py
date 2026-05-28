@@ -36,10 +36,7 @@ def _gather(question: str) -> str:
 
 def _structure(query_text: str) -> list:
     llm = get_structured_llm(MarketSchema)
-    out = llm.invoke(
-        [{"role": "system", "content": _FINDINGS_SYS},
-         HumanMessage(query_text)]
-    )
+    out = llm.invoke([{"role": "system", "content": _FINDINGS_SYS}, HumanMessage(query_text)])
     return out.findings
 
 

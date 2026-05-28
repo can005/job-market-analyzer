@@ -17,29 +17,34 @@ system_msg = (
 human_msg = "Context:\n{context}\n\nQuestion: {question}"
 
 
-prompt_template = ChatPromptTemplate.from_messages([
-    ("system", system_msg),
-    ("human", human_msg),
-])
+prompt_template = ChatPromptTemplate.from_messages(
+    [
+        ("system", system_msg),
+        ("human", human_msg),
+    ]
+)
 
 
 def get_vectorstore() -> PGVector:
     return PGVector(
         embeddings=OpenAIEmbeddings(model=OPENAI_EMBEDDING_MODEL),
         connection=get_connection_string(),
-        collection_name= HN_JOB_POSTING_TABLE_NAME,
+        collection_name=HN_JOB_POSTING_TABLE_NAME,
     )
+
 
 def get_chat_llm() -> ChatOpenAI:
     return ChatOpenAI(model=OPENAI_CHAT_MODEL, temperature=0)
+
 
 def query(prompt: str, k: int = 5) -> list:
     vectorstore = get_vectorstore()
     return vectorstore.similarity_search(prompt, k=k)
 
-def answer_question(prompt: str, k = 5) -> dict :
-    docs = query(prompt,k)
-    context =  "\n\n".join(doc.page_content for doc in docs)
+
+def answer_question(prompt: str, k=5) -> dict:
+    docs = query(prompt, k)
+    context = "\n\n".join(doc.page_content for doc in docs)
 
     llm = get_chat_llm()
     messages = prompt_template.format_messages(context=context, question=prompt)
@@ -47,10 +52,8 @@ def answer_question(prompt: str, k = 5) -> dict :
     return {
         "question": prompt,
         "answer": response.content,
-        "contexts": [doc.page_content for doc in docs]
+        "contexts": [doc.page_content for doc in docs],
     }
-
-
 
 
 def main() -> None:
@@ -65,5 +68,5 @@ def main() -> None:
         raise Exception(f"Unexpected error: {e}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

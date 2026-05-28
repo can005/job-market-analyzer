@@ -34,20 +34,20 @@ def build_eval_dataset(eval_questions: list[dict]) -> EvaluationDataset:
         else:
             contexts = [str(c) for c in contexts]
 
-        rows.append({
-            "user_input": result["question"],
-            "response": result["answer"],
-            "retrieved_contexts": contexts,
-            "reference": item["ground_truth"],
-        })
+        rows.append(
+            {
+                "user_input": result["question"],
+                "response": result["answer"],
+                "retrieved_contexts": contexts,
+                "reference": item["ground_truth"],
+            }
+        )
     return EvaluationDataset.from_list(rows)
 
 
 def run_evaluation():
     llm = LangchainLLMWrapper(ChatOpenAI(model=OPENAI_CHAT_MODEL))
-    embeddings = LangchainEmbeddingsWrapper(
-        OpenAIEmbeddings(model=OPENAI_EMBEDDING_MODEL)
-    )
+    embeddings = LangchainEmbeddingsWrapper(OpenAIEmbeddings(model=OPENAI_EMBEDDING_MODEL))
 
     dataset = build_eval_dataset(EVAL_QUESTIONS)
     # TODO: Migrate to `experiment()` + `ragas.metrics.collections`

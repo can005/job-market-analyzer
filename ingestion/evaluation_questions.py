@@ -1,8 +1,7 @@
 EVAL_QUESTIONS = [
     {
         "question": (
-            "What does Pathos AI do and what kind of AI engineering "
-            "role are they hiring for?"
+            "What does Pathos AI do and what kind of AI engineering role are they hiring for?"
         ),
         "ground_truth": (
             "Pathos AI is an oncology biotech building AI tools for "
@@ -12,30 +11,19 @@ EVAL_QUESTIONS = [
     },
     {
         "question": "Where is INDATA's AI Development Associate role located?",
-        "ground_truth": (
-            "INDATA's AI Development Associate role is Remote US or San Diego."
-        ),
+        "ground_truth": ("INDATA's AI Development Associate role is Remote US or San Diego."),
     },
     {
         "question": "Where is We The Flywheel hiring?",
-        "ground_truth": (
-            "We The Flywheel offers Remote Worldwide or hybrid in Ho Chi Minh City."
-        ),
+        "ground_truth": ("We The Flywheel offers Remote Worldwide or hybrid in Ho Chi Minh City."),
     },
     {
-        "question": (
-            "What is the salary range for Pathos AI's Senior "
-            "Software/AI Engineer role?"
-        ),
+        "question": ("What is the salary range for Pathos AI's Senior Software/AI Engineer role?"),
         "ground_truth": "Pathos AI offers $180,000–$200,000 plus equity.",
     },
     {
-        "question": (
-            "What is the salary range for INDATA's AI Development Associate role?"
-        ),
-        "ground_truth": (
-            "INDATA offers $95,000–$115,000 for the AI Development Associate role."
-        ),
+        "question": ("What is the salary range for INDATA's AI Development Associate role?"),
+        "ground_truth": ("INDATA offers $95,000–$115,000 for the AI Development Associate role."),
     },
     {
         "question": "What seniority level is INDATA's AI Development Associate role?",
@@ -44,8 +32,7 @@ EVAL_QUESTIONS = [
     {
         "question": "What is NetBird's product and how popular is it on GitHub?",
         "ground_truth": (
-            "NetBird is an open source secure remote access product "
-            "with over 25,000 GitHub stars."
+            "NetBird is an open source secure remote access product with over 25,000 GitHub stars."
         ),
     },
     {
@@ -54,8 +41,7 @@ EVAL_QUESTIONS = [
     },
     {
         "question": (
-            "What is BIT Capital's Principal Engineer role focused on "
-            "and where is it based?"
+            "What is BIT Capital's Principal Engineer role focused on and where is it based?"
         ),
         "ground_truth": (
             "BIT Capital is hiring a Principal Engineer focused on "
