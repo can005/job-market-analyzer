@@ -1,6 +1,6 @@
 import os
 
-from core.config import PROFILE_FIELDS
+from core.config import PROFILE_FIELDS, MIN_YEARS, MAX_YEARS
 
 
 def validate_db_env() -> None:
@@ -46,6 +46,15 @@ def validate_profile(profile: dict) -> None:
     if duplicates:
         raise ValueError(f"profile has duplicate skills: {duplicates}")
 
+    out_of_range = [
+        entry["skill"]
+        for entry in profile["skills"]
+        if entry["years"] < MIN_YEARS or entry["years"] > MAX_YEARS
+    ]
+    if out_of_range:
+        raise ValueError(
+            f"profile skills with years outside [{MIN_YEARS}, {MAX_YEARS}]: {out_of_range}"
+        )
 
 def validate_langsmith_env() -> None:
     required = [

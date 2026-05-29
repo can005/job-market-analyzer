@@ -40,3 +40,6 @@ THRESHOLD_BANDS = (
 PROFILE_FIELDS = ("skills", "domain", "logistics")
 
 SCORE_MAX_CANDIDATES = 5
+
+MIN_YEARS = 0
+MAX_YEARS = 50  
