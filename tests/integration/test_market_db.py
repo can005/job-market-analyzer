@@ -17,9 +17,7 @@ def test_list_market_dimensions_returns_real_values(ro_engine):
 
 
 def test_query_job_postings_runs_readonly_select(ro_engine):
-    out = query_job_postings.invoke(
-        {"sql": "SELECT variable FROM job_postings_aggregate LIMIT 3"}
-    )
+    out = query_job_postings.invoke({"sql": "SELECT variable FROM job_postings_aggregate LIMIT 3"})
     # either rows came back (header + body) or the explicit empty sentinel
     assert "variable" in out or out == "No rows returned."
 
