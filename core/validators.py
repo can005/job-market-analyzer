@@ -1,6 +1,6 @@
 import os
 
-from core.config import PROFILE_FIELDS, MIN_YEARS, MAX_YEARS
+from core.config import MAX_YEARS, MIN_YEARS, PROFILE_FIELDS
 
 
 def validate_db_env() -> None:
@@ -55,6 +55,7 @@ def validate_profile(profile: dict) -> None:
         raise ValueError(
             f"profile skills with years outside [{MIN_YEARS}, {MAX_YEARS}]: {out_of_range}"
         )
+
 
 def validate_langsmith_env() -> None:
     required = [
