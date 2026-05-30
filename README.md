@@ -67,6 +67,32 @@ The agent layer uses a **supervisor/worker** pattern: an entry node classifies t
 
 ---
 
+## RAG Evaluation
+
+Retrieval and answer quality are measured with [Ragas](https://docs.ragas.io) over a 15-question reference set, averaged across 3 runs (45 evaluations).
+
+| Metric            | Score |
+|-------------------|-------|
+| Context recall    | 1.00  |
+| Context precision | 1.00  |
+| Faithfulness      | 0.97  |
+| Answer relevancy  | 0.92  |
+
+Run-to-run variance is ≤ 0.002 on every metric, so the scores are reproducible rather than a single lucky run. Retrieval is near-perfect — the right postings are always found and irrelevant context stays out — and the small remaining headroom is in generation faithfulness on a few edge-case questions.
+
+<details>
+<summary>View chart</summary>
+
+![Ragas evaluation scores](docs/ragas_scores.png)
+
+</details>
+
+*Eval set: 15 questions over one corpus snapshot — directional, not a benchmark. Expanding coverage is tracked as future work.*
+
+Reproduce with `python -m ingestion.evaluate`.
+
+---
+
 ## Tech stack
 
 | Layer | Tools |
