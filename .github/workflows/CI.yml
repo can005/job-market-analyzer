@@ -26,4 +26,4 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements-base.txt -r requirements-dev.txt
       - run: pip install -e . --no-deps
-      - run: pytest
+      - run: pytest --cov --cov-report=term-missing

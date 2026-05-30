@@ -11,3 +11,5 @@ config/
 logs/
 *.egg-info/
 dev_checks/
+.coverage
+coverage.xml

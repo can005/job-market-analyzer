@@ -1,5 +1,10 @@
 # Job Market Analyzer
 
+[![CI](https://github.com/can005/job-market-analyzer/actions/workflows/CI.yml/badge.svg)](https://github.com/can005/job-market-analyzer/actions/workflows/CI.yml)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Ruff](https://img.shields.io/badge/lint-ruff-261230.svg)](https://github.com/astral-sh/ruff)
+
 An end-to-end AI engineering system that turns raw labor-market data into grounded answers and ranked job matches. It combines a batch **data pipeline**, a **RAG** layer with automated quality evaluation, a **multi-agent** reasoning system, and **observability** — wired together behind a Streamlit UI.
 
 > Built to exercise the full AI-engineering stack: ingestion and orchestration, retrieval, agentic tool use, structured outputs, evaluation, and tracing — not just a single LLM call.
