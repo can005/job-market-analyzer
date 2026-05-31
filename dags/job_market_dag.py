@@ -1,11 +1,10 @@
-import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from airflow.decorators import dag, task
 
-from core.config import AGGREGATE_CSV, RAW_DATA_DIR, SECTOR_CSV
-from ingestion.clean import main as clean_main
-from ingestion.load import main as load_main
+from ingestion.market_clean import main as clean_main
+from ingestion.market_fetch import main as fetch_main
+from ingestion.market_load import main as load_main
 
 
 @dag(
@@ -17,13 +16,9 @@ from ingestion.load import main as load_main
 )
 def job_market_pipeline():
 
-    @task
+    @task(retries=3, retry_delay=timedelta(minutes=2))
     def extract() -> None:
-        for f in [AGGREGATE_CSV, SECTOR_CSV]:
-            path = RAW_DATA_DIR + f
-            if not os.path.exists(path):
-                raise FileNotFoundError(f"Raw file not found: {path}")
-        print("Raw files verified.")
+        fetch_main()
 
     @task
     def clean() -> None:

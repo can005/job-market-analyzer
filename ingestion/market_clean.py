@@ -1,6 +1,6 @@
 import pandas as pd
 
-from core.config import AGGREGATE_CSV, CLEAN_DATA_DIR, RAW_DATA_DIR, SECTOR_CSV
+from core.config import CLEAN_DATA_DIR, MARKET_AGGREGATE_CSV, MARKET_SECTOR_CSV, RAW_DATA_DIR
 
 
 def clean_aggregate(df: pd.DataFrame) -> pd.DataFrame:
@@ -22,13 +22,13 @@ def clean_sector(df: pd.DataFrame) -> pd.DataFrame:
 def process_aggregate() -> None:
     print("=========== Aggregate Begin ==========")
 
-    df = pd.read_csv(RAW_DATA_DIR + AGGREGATE_CSV)
+    df = pd.read_csv(RAW_DATA_DIR + MARKET_AGGREGATE_CSV)
 
     print(f"Raw shape {df.shape}")
     df = clean_aggregate(df)
     print(f"Clean shape {df.shape}")
 
-    df.to_csv(CLEAN_DATA_DIR + AGGREGATE_CSV, index=False)
+    df.to_csv(CLEAN_DATA_DIR + MARKET_AGGREGATE_CSV, index=False)
 
     print("=========== Aggregate Done ==========")
 
@@ -36,13 +36,13 @@ def process_aggregate() -> None:
 def process_sector() -> None:
     print("=========== Sector Begin ==========")
 
-    df = pd.read_csv(RAW_DATA_DIR + SECTOR_CSV)
+    df = pd.read_csv(RAW_DATA_DIR + MARKET_SECTOR_CSV)
 
     print(f"Raw shape {df.shape}")
     df = clean_sector(df)
     print(f"Clean shape {df.shape}")
 
-    df.to_csv(CLEAN_DATA_DIR + SECTOR_CSV, index=False)
+    df.to_csv(CLEAN_DATA_DIR + MARKET_SECTOR_CSV, index=False)
 
     print("=========== Sector Done ==========")
 

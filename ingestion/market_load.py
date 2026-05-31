@@ -2,7 +2,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 
-from core.config import AGGREGATE_CSV, CLEAN_DATA_DIR, SECTOR_CSV
+from core.config import CLEAN_DATA_DIR, MARKET_AGGREGATE_CSV, MARKET_SECTOR_CSV
 from ingestion.db import bulk_upsert, get_engine
 from ingestion.models import Aggregate, Base, Sector
 
@@ -27,8 +27,8 @@ def main() -> None:
         Base.metadata.create_all(engine)
         print("Database tables verified")
 
-        agg = pd.read_csv(CLEAN_DATA_DIR + AGGREGATE_CSV)
-        sec = pd.read_csv(CLEAN_DATA_DIR + SECTOR_CSV)
+        agg = pd.read_csv(CLEAN_DATA_DIR + MARKET_AGGREGATE_CSV)
+        sec = pd.read_csv(CLEAN_DATA_DIR + MARKET_SECTOR_CSV)
         print("CSVs loaded")
 
         with Session(engine) as session:

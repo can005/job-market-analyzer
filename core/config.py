@@ -2,8 +2,11 @@ RAW_DATA_DIR = "data/raw/"
 CLEAN_DATA_DIR = "data/clean/"
 EVAL_RESULTS_DATA_DIR = "data/eval/results"
 
-AGGREGATE_CSV = "aggregate_job_postings_US.csv"
-SECTOR_CSV = "job_postings_by_sector_US.csv"
+MARKET_AGGREGATE_CSV = "aggregate_job_postings_US.csv"
+MARKET_SECTOR_CSV = "job_postings_by_sector_US.csv"
+MARKET_JOB_POSTINGS_SOURCE_BASE_URL = (
+    "https://raw.githubusercontent.com/hiring-lab/job_postings_tracker/master/US/"
+)
 
 UPSERT_BATCH_SIZE = 1000
 
