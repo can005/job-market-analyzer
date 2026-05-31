@@ -11,6 +11,12 @@ An end-to-end AI engineering system that turns raw labor-market data into ground
 
 ---
 
+## Demo
+
+![Job Market Analyzer demo](docs/demo.gif)
+
+---
+
 ## What it does
 
 Given a candidate profile (skills with years, domain, logistics) and a free-text question, the system:
