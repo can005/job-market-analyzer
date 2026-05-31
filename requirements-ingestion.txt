@@ -3,3 +3,4 @@ pandas==3.0.2
 beautifulsoup4==4.14.3
 datasets==4.8.5
 ragas==0.4.3
+langchain-google-vertexai==3.2.3

@@ -1,6 +1,8 @@
+import sys
 from datetime import datetime
 from pathlib import Path
 
+import langchain_google_vertexai
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from ragas import EvaluationDataset, evaluate
@@ -21,6 +23,14 @@ from core.config import (
 from core.validators import validate_openai_llm_env
 from ingestion.evaluation_questions import EVAL_QUESTIONS
 from ingestion.rag import answer_question
+
+# ragas 0.4.3 imports ChatVertexAI from langchain_community.chat_models.vertexai,
+# a path removed in langchain-community 0.4.x. Redirect it to the successor package
+# TODO: Remove once ragas fixes this upstream.
+sys.modules.setdefault(
+    "langchain_community.chat_models.vertexai",
+    langchain_google_vertexai,
+)
 
 
 def build_eval_dataset(eval_questions: list[dict]) -> EvaluationDataset:
