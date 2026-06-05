@@ -1,0 +1,37 @@
+[
+  {
+    "id": "Q001",
+    "question": "Where is Beacon AI based?",
+    "type": "single_fact",
+    "gold_ids": [47976582],
+    "expected_abstain": false
+  },
+  {
+    "id": "Q002",
+    "question": "What is the salary range for the Support Engineer role at PetsApp?",
+    "type": "single_fact",
+    "gold_ids": [48006671],
+    "expected_abstain": false
+  },
+  {
+    "id": "Q003",
+    "question": "Which companies are hiring engineers for AI-related simulation or modelling work?",
+    "type": "multi_hop",
+    "gold_ids": [46469865, 47621535],
+    "expected_abstain": false
+  },
+  {
+    "id": "Q004",
+    "question": "Does Antioch offer a fully remote role?",
+    "type": "single_fact",
+    "gold_ids": [47621535],
+    "expected_abstain": false
+  },
+  {
+    "id": "Q005",
+    "question": "Which company is hiring for an Antarctic field engineering role?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  }
+]
