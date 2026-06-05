@@ -25,8 +25,9 @@ _FIND_SYS = (
 
 _EXTRACT_SYS = (
     "From the search results below, extract each relevant posting as a "
-    "candidate. Use the posting's list position as list_position and its full "
-    "text as raw_text. Keep only postings plausibly relevant to the profile.\n"
+    "candidate. Use the posting's HN id (shown after `id:`) as hn_id and its "
+    "full text as raw_text. Keep only postings plausibly relevant to the "
+    "profile.\n"
     "\n"
     "For each candidate, populate required_skills — one entry per skill the "
     "posting requires (technical and non-technical alike; let the posting "
@@ -128,7 +129,7 @@ def _score_one(candidate, profile: dict) -> ScoreSchema:
             ),
         ]
     )
-    logger.info("roles.score.done", extra={"list_position": candidate.list_position})
+    logger.info("roles.score.done", extra={"hn_id": candidate.hn_id})
     return score
 
 
@@ -145,7 +146,7 @@ def _classify(candidate, score: ScoreSchema) -> dict:
     total = sum(dims[d] * SCORE_WEIGHTS[d] for d in SCORE_DIMENSIONS)
     label = next(lbl for floor, lbl in THRESHOLD_BANDS if total >= floor)
     return {
-        "list_position": candidate.list_position,
+        "hn_id": candidate.hn_id,
         "raw_text": candidate.raw_text,
         **dims,
         "reasoning": score.reasoning,

@@ -26,7 +26,7 @@ class RequiredSkill(BaseModel):
 
 
 class Candidate(BaseModel):
-    list_position: int = Field(ge=0)
+    hn_id: int = Field(ge=0)
     raw_text: str = Field(min_length=1)
     required_skills: list[RequiredSkill]
 

@@ -6,7 +6,7 @@ from core.schemas import Candidate, ScoreSchema, SkillSeniorityScore
 
 
 def _candidate():
-    return Candidate(list_position=0, raw_text="posting text", required_skills=[])
+    return Candidate(hn_id=0, raw_text="posting text", required_skills=[])
 
 
 def _score(skills, seniority_scores, domain, logistics):
@@ -56,8 +56,8 @@ def test_band_weak_below_2_5():
 
 
 def test_passthrough_fields():
-    c = Candidate(list_position=7, raw_text="ACME | Backend Engineer", required_skills=[])
+    c = Candidate(hn_id=7, raw_text="ACME | Backend Engineer", required_skills=[])
     out = _classify(c, _score(3, [3], 3, 3))
-    assert out["list_position"] == 7
+    assert out["hn_id"] == 7
     assert out["raw_text"] == "ACME | Backend Engineer"
     assert out["reasoning"] == "test"

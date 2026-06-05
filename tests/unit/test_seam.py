@@ -28,11 +28,11 @@ def test_empty_question_raises_invalid_seam_input(make_stub_graph, valid_profile
 def test_ok_when_plan_fully_filled(make_stub_graph, valid_profile):
     graph = make_stub_graph(
         entry_fn=lambda s: {"plan": ["scored"]},
-        roles_fn=lambda s: {"scored": [{"list_position": 0}]},
+        roles_fn=lambda s: {"scored": [{"hn_id": 0}]},
     )
     result = run(graph, "find roles", valid_profile)
     assert result.status == "ok"
-    assert result.scored == [{"list_position": 0}]
+    assert result.scored == [{"hn_id": 0}]
 
 
 def test_partial_when_one_worker_fails(make_stub_graph, valid_profile):
