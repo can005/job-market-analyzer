@@ -1,0 +1,39 @@
+[
+  {
+    "id": "SC001",
+    "profile": {
+      "skills": [
+        {"skill": "Python", "years": 8},
+        {"skill": "FastAPI", "years": 3}
+      ],
+      "domain": "backend systems",
+      "logistics": "remote, US"
+    },
+    "candidate": {
+      "hn_id": 46469865,
+      "raw_text": "Ionworks | Founding Systems Engineer | Remote (US) or Pittsburgh, PA | Full-time. Ionworks builds battery simulation and optimization software used by R&D teams designing next-generation batteries. We are looking for a founding backend / systems engineer to own big pieces of our backend and help us scale. Stack: FastAPI, async Python, Supabase/Postgres.",
+      "required_skills": [
+        {"skill": "Python", "years_required": null, "level": "strong", "matched_profile_skill": "Python"},
+        {"skill": "FastAPI", "years_required": null, "level": "proficient", "matched_profile_skill": "FastAPI"}
+      ]
+    },
+    "expected_band": "strong"
+  },
+  {
+    "id": "SC002",
+    "profile": {
+      "skills": [{"skill": "Python", "years": 5}],
+      "domain": "backend systems",
+      "logistics": "remote, EU"
+    },
+    "candidate": {
+      "hn_id": 47621535,
+      "raw_text": "Antioch | Simulation Engineer | New York City | Full Time. Antioch is building the simulation platform for robotics and perception systems. Build high-fidelity models of sensors and physical components.",
+      "required_skills": [
+        {"skill": "simulation", "years_required": null, "level": "strong", "matched_profile_skill": null},
+        {"skill": "robotics", "years_required": null, "level": "proficient", "matched_profile_skill": null}
+      ]
+    },
+    "expected_band": "weak"
+  }
+]

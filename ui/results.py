@@ -36,7 +36,7 @@ def _posting_title(raw_text: str, max_chars: int = 120) -> str:
 
 
 def _render_role_row(i: int, role: dict) -> None:
-    pos = role["list_position"]
+    hn_id = role["hn_id"]
     title = _posting_title(role["raw_text"])
     dims = (
         f"skills {role['skills_match']} · "
@@ -46,11 +46,11 @@ def _render_role_row(i: int, role: dict) -> None:
     )
     with st.container(border=True):
         st.markdown(f"**{i}. {title}**")
-        st.caption(f"Posting #{pos}")
+        st.caption(f"HN id: {hn_id}")
         st.markdown(f"{_band_badge(role['label'])} &nbsp; **{role['total']}**")
         st.caption(dims)
-        if st.button("View", key=f"view_{pos}", use_container_width=True):
-            st.session_state.selected_role = pos
+        if st.button("View", key=f"view_{hn_id}", use_container_width=True):
+            st.session_state.selected_role = hn_id
 
 
 def _render_detail_pane(scored: list[dict]) -> None:
@@ -58,14 +58,12 @@ def _render_detail_pane(scored: list[dict]) -> None:
     if selected is None:
         st.caption("Select a posting to view its full text.")
         return
-    match = next((r for r in scored if r["list_position"] == selected), None)
+    match = next((r for r in scored if r["hn_id"] == selected), None)
     if match is None:
         st.caption("Selected posting is no longer in the results.")
         return
     st.markdown(f"**{_posting_title(match['raw_text'])}**")
-    st.caption(
-        f"Posting #{match['list_position']} · Band: {match['label']} · Total: {match['total']}"
-    )
+    st.caption(f"HN id: {match['hn_id']} · Band: {match['label']} · Total: {match['total']}")
     st.markdown(match["raw_text"])
 
 

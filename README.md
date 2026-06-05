@@ -41,9 +41,8 @@ flowchart TD
         D --> PG
     end
 
-    subgraph RAG["Phase 2 · RAG + Evaluation"]
+    subgraph RAG["Phase 2 · RAG"]
         PG --> R[Semantic search over HN postings]
-        R --> RA["Ragas eval<br/>faithfulness · relevancy<br/>context precision / recall"]
     end
 
     subgraph Agents["Phase 3 · Multi-Agent System (LangGraph)"]
@@ -78,29 +77,24 @@ The agent layer uses a **supervisor/worker** pattern: an entry node classifies t
 
 ---
 
-## RAG Evaluation
+## Evaluation
 
-Retrieval and answer quality are measured with [Ragas](https://docs.ragas.io) over a 15-question reference set, averaged across 3 runs (45 evaluations).
+The eval splits along the two paths the system actually ships:
 
-| Metric            | Score |
-|-------------------|-------|
-| Context recall    | 1.00  |
-| Context precision | 1.00  |
-| Faithfulness      | 0.97  |
-| Answer relevancy  | 0.92  |
+- **Retrieval** — does the vector store rank the right HN postings for a given question? Non-LLM metrics: **hit@k** and **MRR** at the same `k=25` the agent uses.
+- **Ranking** — does the scorer assign the expected band to a known profile/posting pair? A **deterministic** band check (predicted vs expected) always runs; an optional **LLM judge** grades the rationale for rubric match and evidence grounding, catching right-band-via-hallucination cases.
 
-Run-to-run variance is ≤ 0.002 on every metric, so the scores are reproducible rather than a single lucky run. Retrieval is near-perfect — the right postings are always found and irrelevant context stays out — and the small remaining headroom is in generation faithfulness on a few edge-case questions.
+Both run against a frozen corpus at `tests/fixtures/eval/hn_corpus.json` (committed) and a question set at `tests/fixtures/eval/questions.json` (verified seed today; full ~48-question set weighted 25/40/35 across single-fact / multi-hop / distractor in progress). The embedding and judge models are pinned per run, and a local cache (`data/eval/cache/`) skips re-embedding when nothing changed.
 
-<details>
-<summary>View chart</summary>
+The judge is **pluggable** via `JUDGE_MODEL` (default `gpt-4o`; accepts `claude-*` with `ANTHROPIC_API_KEY`). Eval runs label which judge produced their results — scores from different judges aren't comparable as one yardstick.
 
-![Ragas evaluation scores](docs/ragas_scores.png)
+Reproduce with:
 
-</details>
+```bash
+python -m evals.run
+```
 
-*Eval set: 15 questions over one corpus snapshot — directional, not a benchmark. Expanding coverage is tracked as future work.*
-
-Reproduce with `python -m ingestion.evaluate`.
+Output: one JSON to `data/eval/results/` per run with metadata, per-question/per-case results, and summaries. No CI gating — the eval is read for what it reveals (per-question failures feed the design conversation), not used as a pass/fail threshold.
 
 ---
 
@@ -112,7 +106,7 @@ Reproduce with `python -m ingestion.evaluate`.
 | Storage | PostgreSQL 16 + `pgvector` |
 | Retrieval | LangChain, `langchain-postgres` PGVector, OpenAI embeddings |
 | Agents | LangGraph (supervisor/worker graph), structured outputs via Pydantic |
-| Evaluation | Ragas (faithfulness, response relevancy, context precision/recall) |
+| Evaluation | Retrieval (hit@k, MRR) and scoring eval (deterministic band + pluggable LLM judge) |
 | Observability | LangSmith tracing |
 | Interface | Streamlit |
 | Quality | pytest (unit / integration / e2e markers), Ruff, GitHub Actions CI |
@@ -130,11 +124,12 @@ Reproduce with `python -m ingestion.evaluate`.
 
 ```
 core/         config, LLM factories, Pydantic schemas, env/profile validators
-ingestion/    clean, load, DB access, HN fetch/embed, RAG, Ragas evaluation
+ingestion/    clean, load, DB access, HN fetch/embed
 agents/       LangGraph graph, entry classifier, supervisor/router, market & roles workers, tools
+evals/        retrieval eval (hit@k, MRR), scoring eval (deterministic + judge), runner
 ui/           Streamlit app, profile form, results rendering
 dags/         Airflow DAGs (Indeed pipeline, HN jobs)
-tests/        unit / integration / e2e (pytest markers)
+tests/        unit / integration / e2e (pytest markers); fixtures/eval/ holds the frozen corpus and questions
 scripts/      environment + service startup helpers
 ```
 

@@ -12,7 +12,7 @@ from core.schemas import Candidate, ScoreSchema, SkillSeniorityScore
 
 
 def _candidate(raw_text: str) -> Candidate:
-    return Candidate(list_position=0, raw_text=raw_text, required_skills=[])
+    return Candidate(hn_id=0, raw_text=raw_text, required_skills=[])
 
 
 def _score(skills: int, seniority: list[int], domain: int, logistics: int) -> ScoreSchema:

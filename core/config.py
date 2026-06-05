@@ -23,9 +23,6 @@ OPENAI_EMBEDDING_MODEL = "text-embedding-3-small"
 OPENAI_CHAT_MODEL = "gpt-4o-mini"
 
 
-RAGAS_FILENAME_TEMPLATE = "ragas_{timestamp}.csv"
-
-
 SCORE_DIMENSIONS = ("skills_match", "seniority_match", "domain_match", "logistics_match")
 
 SCORE_WEIGHTS = {

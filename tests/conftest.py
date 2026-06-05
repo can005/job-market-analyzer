@@ -71,7 +71,7 @@ def make_stub_graph():
 
     def _make(entry_fn=None, roles_fn=None, market_fn=None):
         entry_fn = entry_fn or (lambda s: {"plan": ["scored"]})
-        roles_fn = roles_fn or (lambda s: {"scored": [{"list_position": 0}]})
+        roles_fn = roles_fn or (lambda s: {"scored": [{"hn_id": 0}]})
         market_fn = market_fn or (lambda s: {"market_findings": [{"statement": "x"}]})
 
         g = StateGraph(AgentState)

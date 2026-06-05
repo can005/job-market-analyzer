@@ -12,7 +12,7 @@ def test_first_unfilled_field_routes_to_its_worker():
 
 
 def test_filled_field_advances_to_end():
-    state = {"plan": ["scored"], "scored": [{"list_position": 0}]}
+    state = {"plan": ["scored"], "scored": [{"hn_id": 0}]}
     assert route_next(state) == END
 
 
@@ -43,7 +43,7 @@ def test_all_filled_ends():
     state = {
         "plan": ["market_findings", "scored"],
         "market_findings": [{"statement": "x"}],
-        "scored": [{"list_position": 0}],
+        "scored": [{"hn_id": 0}],
     }
     assert route_next(state) == END
 

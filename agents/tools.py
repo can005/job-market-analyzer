@@ -64,21 +64,18 @@ def query_job_postings(sql: str) -> str:
 @tool
 def search_hn_job_postings(query: str, k: int = 25) -> str:
     """Semantic search over Hacker News 'Who is hiring' job postings. Returns the
-    top-k matching postings as full text, each prefixed with its list position.
+    top-k matching postings as full text, each prefixed with its HN id.
 
-    HN postings have NO stable id — refer to a posting by its list position.
-    Each posting's full text (company, role, salary, stack) is the searchable body.
+    The HN id (e.g. `47975574`) is the posting's stable external identifier on
+    Hacker News — use it when referring to a posting. Each posting's full text
+    (company, role, salary, stack) is the searchable body.
     """
     vectorstore = get_vectorstore()
     docs = vectorstore.similarity_search(query, k=k)
-    logger.info(
-        "tools.search_hn_job_postings", extra={"query": query, "k": k, "hits": len(docs)}
-    )
+    logger.info("tools.search_hn_job_postings", extra={"query": query, "k": k, "hits": len(docs)})
     if not docs:
         return "No matching postings found."
-    blocks = []
-    for i, doc in enumerate(docs):
-        blocks.append(f"[position {i}]\n{doc.page_content}")
+    blocks = [f"[id: {doc.metadata['id']}]\n{doc.page_content}" for doc in docs]
     return "\n\n".join(blocks)
 
 
