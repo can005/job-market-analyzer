@@ -32,6 +32,14 @@ jobs:
   integration:
     runs-on: ubuntu-latest
     continue-on-error: true
+    env:
+      DB_HOST: localhost
+      DB_PORT: '5433'
+      DB_USER: jma
+      DB_PASSWORD: jma
+      DB_NAME: jma
+      RO_DB_USER: jma
+      RO_DB_PASSWORD: jma
     services:
       pgvector:
         image: pgvector/pgvector:pg16
@@ -53,19 +61,24 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements-base.txt -r requirements-dev.txt -r requirements-ingestion.txt
       - run: pip install -e . --no-deps
+      - run: python scripts/seed_integration_db.py
       - run: pytest -m integration
-        env:
-          DB_HOST: localhost
-          DB_PORT: '5433'
-          DB_USER: jma
-          DB_PASSWORD: jma
-          DB_NAME: jma
-          RO_DB_USER: jma
-          RO_DB_PASSWORD: jma
 
   e2e:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LANGSMITH_TRACING: 'false'
+      LANGSMITH_API_KEY: placeholder
+      LANGSMITH_PROJECT: placeholder
+      DB_HOST: localhost
+      DB_PORT: '5433'
+      DB_USER: jma
+      DB_PASSWORD: jma
+      DB_NAME: jma
+      RO_DB_USER: jma
+      RO_DB_PASSWORD: jma
     services:
       pgvector:
         image: pgvector/pgvector:pg16
@@ -87,16 +100,5 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements-base.txt -r requirements-dev.txt -r requirements-ingestion.txt
       - run: pip install -e . --no-deps
+      - run: python scripts/seed_integration_db.py
       - run: pytest -m e2e
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          LANGSMITH_TRACING: 'false'
-          LANGSMITH_API_KEY: placeholder
-          LANGSMITH_PROJECT: placeholder
-          DB_HOST: localhost
-          DB_PORT: '5433'
-          DB_USER: jma
-          DB_PASSWORD: jma
-          DB_NAME: jma
-          RO_DB_USER: jma
-          RO_DB_PASSWORD: jma
