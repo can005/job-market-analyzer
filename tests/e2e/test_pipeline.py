@@ -7,6 +7,8 @@ content (which the model varies)."""
 
 from agents.graph import run
 
+VALID_BANDS = {"strong", "moderate", "weak"}
+
 
 def test_roles_request_runs_end_to_end(compiled_graph, valid_profile):
     result = run(compiled_graph, "Find me C++ backend roles", valid_profile)
@@ -14,6 +16,8 @@ def test_roles_request_runs_end_to_end(compiled_graph, valid_profile):
     # a roles-only or market-then-roles plan should produce scored on success
     if result.status == "ok":
         assert result.scored is not None
+        # every scored item must land in a defined band — catches schema drift
+        assert all(item["label"] in VALID_BANDS for item in result.scored)
 
 
 def test_market_request_runs_end_to_end(compiled_graph, valid_profile):
@@ -23,3 +27,7 @@ def test_market_request_runs_end_to_end(compiled_graph, valid_profile):
         valid_profile,
     )
     assert result.status in {"ok", "partial"}
+    if result.status == "ok":
+        assert result.market_findings is not None
+        # at least one finding must carry a non-empty statement
+        assert any(finding.get("statement") for finding in result.market_findings)
