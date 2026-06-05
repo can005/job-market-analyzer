@@ -79,6 +79,7 @@ class AgentResult(BaseModel):
     status: Literal["ok", "partial", "error"]
     scored: list[dict] | None = None
     market_findings: list[dict] | None = None
+    error: str | None = None
     run_id: str | None = None
     run_url: str | None = None
 

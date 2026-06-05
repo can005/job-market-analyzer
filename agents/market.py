@@ -7,6 +7,7 @@ from agents.tools import (
     list_market_dimensions,
     query_job_postings,
 )
+from core.errors import TRANSIENT_LLM_ERRORS
 from core.llm import get_chat_llm, get_structured_llm
 from core.schemas import MarketSchema
 
@@ -45,5 +46,8 @@ def market_node(state: dict) -> dict:
         query_text = _gather(state["question"])
         findings = _structure(query_text)
         return {"market_findings": [f.model_dump() for f in findings]}
-    except Exception:
-        return {"worker_status": {MARKET: "failed"}}
+    except TRANSIENT_LLM_ERRORS as e:
+        return {
+            "worker_status": {MARKET: "failed"},
+            "worker_errors": {MARKET: type(e).__name__},
+        }

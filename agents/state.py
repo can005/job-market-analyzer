@@ -12,3 +12,4 @@ class AgentState(TypedDict):
     scored: NotRequired[list[dict]]  # write-once → default LastValue channel
     market_findings: NotRequired[list[dict]]  # write-once → default LastValue channel
     worker_status: NotRequired[dict[str, str]]  # sparse failure markers; absent = ok or not run
+    worker_errors: NotRequired[dict[str, str]]  # reason per failed worker (transient error type)

@@ -9,6 +9,7 @@ from core.config import (
     SCORE_WEIGHTS,
     THRESHOLD_BANDS,
 )
+from core.errors import TRANSIENT_LLM_ERRORS
 from core.llm import get_chat_llm, get_structured_llm
 from core.schemas import CandidatesSchema, ScoreSchema
 
@@ -151,5 +152,8 @@ def roles_node(state: dict) -> dict:
         candidates = _extract(search_text, profile)[:SCORE_MAX_CANDIDATES]
         scored = [_classify(c, _score_one(c, profile)) for c in candidates]
         return {"scored": scored}
-    except Exception:
-        return {"worker_status": {ROLES: "failed"}}
+    except TRANSIENT_LLM_ERRORS as e:
+        return {
+            "worker_status": {ROLES: "failed"},
+            "worker_errors": {ROLES: type(e).__name__},
+        }

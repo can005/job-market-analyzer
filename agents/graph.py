@@ -69,11 +69,18 @@ def run(
     if plan and not filled:
         raise NoResultsError(f"no planned worker produced data; failed={failed_workers}")
 
+    worker_errors = final.get("worker_errors", {})
+    error = (
+        "; ".join(f"{name}: {reason}" for name, reason in sorted(worker_errors.items()))
+        or None
+    )
+
     status = "ok" if len(filled) == len(plan) else "partial"
     return _result(
         status=status,
         scored=final.get("scored"),
         market_findings=final.get("market_findings"),
+        error=error,
         trace=trace,
     )
 
