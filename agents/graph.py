@@ -1,3 +1,5 @@
+import logging
+
 import langsmith as ls
 from langgraph.graph import START, StateGraph
 from langsmith import traceable
@@ -16,9 +18,11 @@ from agents.supervisor import (
     route_next,
     supervisor_node,
 )
+from core.logging import TokenUsageCallback, setup_logging
 from core.schemas import AgentResult, InvalidSeamInputError, NoResultsError, Profile
 from core.validators import validate_langsmith_env
 
+logger = logging.getLogger(__name__)
 RECURSION_LIMIT = 10
 
 
@@ -40,6 +44,7 @@ def build_graph():
 def run(
     graph, question: str, profile: Profile, *, trace: bool = False, surface: str = "dev"
 ) -> AgentResult:
+    setup_logging()
     validate_langsmith_env()
     if not question or not question.strip():
         raise InvalidSeamInputError("question must be a non-empty string")
@@ -49,10 +54,12 @@ def run(
         "profile": profile.model_dump(),
         "question": question,
     }
+    token_callback = TokenUsageCallback()
     config = {
         "recursion_limit": RECURSION_LIMIT,
         "tags": [surface],
         "metadata": {"surface": surface},
+        "callbacks": [token_callback],
     }
 
     with ls.tracing_context(enabled=trace):
@@ -69,11 +76,29 @@ def run(
     if plan and not filled:
         raise NoResultsError(f"no planned worker produced data; failed={failed_workers}")
 
+    worker_errors = final.get("worker_errors", {})
+    error = "; ".join(f"{name}: {reason}" for name, reason in sorted(worker_errors.items())) or None
+
     status = "ok" if len(filled) == len(plan) else "partial"
+
+    rt = get_current_run_tree()
+    correlation_id = str(rt.id) if rt is not None else None
+    logger.info(
+        "run.complete",
+        extra={
+            "correlation_id": correlation_id,
+            "status": status,
+            "surface": surface,
+            "failed_workers": failed_workers,
+            **token_callback.totals(),
+        },
+    )
+
     return _result(
         status=status,
         scored=final.get("scored"),
         market_findings=final.get("market_findings"),
+        error=error,
         trace=trace,
     )
 

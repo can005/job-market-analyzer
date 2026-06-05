@@ -46,3 +46,8 @@ def test_all_filled_ends():
         "scored": [{"list_position": 0}],
     }
     assert route_next(state) == END
+
+
+def test_empty_result_does_not_reroute_worker():
+    state = {"plan": ["scored"], "scored": []}
+    assert route_next(state) == END

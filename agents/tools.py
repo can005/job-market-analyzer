@@ -1,3 +1,4 @@
+import logging
 import re
 
 from langchain_core.messages import ToolMessage
@@ -6,6 +7,8 @@ from sqlalchemy import text
 
 from ingestion.db import get_readonly_engine
 from ingestion.rag import get_vectorstore
+
+logger = logging.getLogger(__name__)
 
 # --- Indeed SQL guard ----------------------------------------------------
 # The REAL guarantee is the read-only DB role (RO_DB_USER has no write grants).
@@ -50,6 +53,7 @@ def query_job_postings(sql: str) -> str:
         result = conn.execute(text(safe))
         rows = result.fetchmany(ROW_CAP)
         cols = list(result.keys())
+    logger.info("tools.query_job_postings", extra={"sql": safe, "rows": len(rows)})
     if not rows:
         return "No rows returned."
     header = " | ".join(cols)
@@ -67,6 +71,9 @@ def search_hn_job_postings(query: str, k: int = 25) -> str:
     """
     vectorstore = get_vectorstore()
     docs = vectorstore.similarity_search(query, k=k)
+    logger.info(
+        "tools.search_hn_job_postings", extra={"query": query, "k": k, "hits": len(docs)}
+    )
     if not docs:
         return "No matching postings found."
     blocks = []
@@ -95,4 +102,12 @@ def list_market_dimensions() -> str:
                 text("SELECT DISTINCT sector_name FROM job_postings_by_sector ORDER BY sector_name")
             )
         ]
+    logger.info(
+        "tools.list_market_dimensions",
+        extra={
+            "variables": len(variables),
+            "countries": len(countries),
+            "sectors": len(sectors),
+        },
+    )
     return f"variables: {variables}\ncountries: {countries}\nsectors: {sectors}"

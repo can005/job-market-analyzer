@@ -1,11 +1,16 @@
+import logging
+
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_postgres import PGVector
 
 from core.config import HN_JOB_POSTING_TABLE_NAME, OPENAI_CHAT_MODEL, OPENAI_EMBEDDING_MODEL
+from core.logging import setup_logging
 from core.validators import validate_openai_llm_env
 from ingestion.db import get_connection_string
+
+logger = logging.getLogger(__name__)
 
 system_msg = (
     "You answer questions about job postings using only the provided context. "
@@ -57,11 +62,12 @@ def answer_question(prompt: str, k=5) -> dict:
 
 
 def main() -> None:
+    setup_logging()
     try:
         load_dotenv()
         validate_openai_llm_env()
         results = answer_question("AI engineering roles using Python and LLMs")
-        print(results)
+        logger.info("rag.smoke.answer", extra={"result": results})
     except EnvironmentError as e:
         raise EnvironmentError(f"Configuration error: {e}")
     except Exception as e:

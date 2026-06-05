@@ -1,3 +1,4 @@
+import logging
 import os
 
 import requests
@@ -8,6 +9,9 @@ from core.config import (
     MARKET_SECTOR_CSV,
     RAW_DATA_DIR,
 )
+from core.logging import setup_logging
+
+logger = logging.getLogger(__name__)
 
 DOWNLOAD_TIMEOUT = 60  # seconds
 SOURCE_FILES = (MARKET_AGGREGATE_CSV, MARKET_SECTOR_CSV)
@@ -18,7 +22,7 @@ def download_csv(filename: str) -> None:
     dest = RAW_DATA_DIR + filename
     tmp = dest + ".tmp"
 
-    print(f"Downloading {url}")
+    logger.info("market_fetch.downloading", extra={"url": url})
     response = requests.get(url, timeout=DOWNLOAD_TIMEOUT, stream=True)
     response.raise_for_status()
 
@@ -27,10 +31,11 @@ def download_csv(filename: str) -> None:
             fh.write(chunk)
 
     os.replace(tmp, dest)
-    print(f"Saved {dest} ({os.path.getsize(dest)} bytes)")
+    logger.info("market_fetch.saved", extra={"dest": dest, "bytes": os.path.getsize(dest)})
 
 
 def main() -> None:
+    setup_logging()
     os.makedirs(RAW_DATA_DIR, exist_ok=True)
     for filename in SOURCE_FILES:
         download_csv(filename)

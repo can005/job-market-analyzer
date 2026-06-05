@@ -1,4 +1,5 @@
 import json
+import logging
 import time
 from datetime import datetime, timedelta
 
@@ -6,6 +7,9 @@ import requests
 from bs4 import BeautifulSoup
 
 from core.config import HN_API_BASE_URL, HN_JOBS_FILENAME, HN_RAW_DATA_PATH
+from core.logging import setup_logging
+
+logger = logging.getLogger(__name__)
 
 
 def search_hn(
@@ -39,6 +43,7 @@ def clean_html(text: str) -> str:
 
 
 def main() -> None:
+    setup_logging()
     results = search_hn("Ask HN: Who is Hiring")
     thread_ids = [hit["objectID"] for hit in results["hits"]]
     jobs = []
@@ -57,7 +62,7 @@ def main() -> None:
                     }
                 )
 
-    print(len(jobs))
+    logger.info("hn_fetch.done", extra={"job_count": len(jobs)})
     with open(HN_RAW_DATA_PATH + HN_JOBS_FILENAME, "w") as f:
         json.dump(jobs, f)
 

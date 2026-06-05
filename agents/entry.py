@@ -1,8 +1,12 @@
+import logging
+
 from langchain_core.messages import HumanMessage
 
 from core.llm import get_structured_llm
 from core.schemas import RequestRoute
 from core.validators import validate_profile
+
+logger = logging.getLogger(__name__)
 
 ROUTE_TO_PLAN = {
     "roles_only": ["scored"],
@@ -26,4 +30,6 @@ def entry_node(state: dict) -> dict:
         [{"role": "system", "content": _CLASSIFY_SYS}, HumanMessage(state["question"])]
     ).route
 
-    return {"plan": ROUTE_TO_PLAN[route]}
+    plan = ROUTE_TO_PLAN[route]
+    logger.info("entry.classified", extra={"route": route, "plan": plan})
+    return {"plan": plan}

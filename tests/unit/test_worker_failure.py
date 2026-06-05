@@ -1,35 +1,64 @@
-"""Failure-path injection. Monkeypatch an internal call to RAISE, then assert the
-node's except-branch writes the worker_status marker. This tests error handling,
-NOT the model — so it's unit (the exception comes from a stub, no LLM is called).
+"""Typed error policy for the workers.
 
-Distinct from faking LLM *success*, which would require the model and be e2e."""
+Policy (see core/errors.py): workers catch only enumerated transient LLM errors
+(timeout, rate-limit, transient API error) and degrade to "failed" + record the
+reason. Anything else — KeyError, RuntimeError, ValidationError — propagates so
+real bugs are not swallowed.
+
+These are unit tests: the exceptions come from stubs, no LLM is called."""
+
+import httpx
+import openai
+import pytest
 
 import agents.market as market_mod
 import agents.roles as roles_mod
 from agents.supervisor import MARKET, ROLES
 
 
-def _boom(*args, **kwargs):
-    raise RuntimeError("injected failure")
+def _raise(exc: BaseException):
+    def _inner(*args, **kwargs):
+        raise exc
+
+    return _inner
 
 
-def test_roles_node_writes_failed_marker(monkeypatch):
-    monkeypatch.setattr(roles_mod, "_find", _boom)
+def _rate_limit_error() -> openai.RateLimitError:
+    response = httpx.Response(status_code=429, request=httpx.Request("POST", "https://x"))
+    return openai.RateLimitError("rate limited", response=response, body=None)
+
+
+# --- transient errors degrade to "failed" + record reason ---------------------
+
+
+def test_roles_node_records_reason_on_transient(monkeypatch):
+    monkeypatch.setattr(roles_mod, "_find", _raise(_rate_limit_error()))
     out = roles_mod.roles_node({"profile": {"skills": [], "domain": "d", "logistics": "l"}})
-    assert out == {"worker_status": {ROLES: "failed"}}
-    assert "scored" not in out
+    assert out == {
+        "worker_status": {ROLES: "failed"},
+        "worker_errors": {ROLES: "RateLimitError"},
+    }
 
 
-def test_market_node_writes_failed_marker(monkeypatch):
-    monkeypatch.setattr(market_mod, "_gather", _boom)
+def test_market_node_records_reason_on_transient(monkeypatch):
+    monkeypatch.setattr(market_mod, "_gather", _raise(_rate_limit_error()))
     out = market_mod.market_node({"question": "any trend question"})
-    assert out == {"worker_status": {MARKET: "failed"}}
-    assert "market_findings" not in out
+    assert out == {
+        "worker_status": {MARKET: "failed"},
+        "worker_errors": {MARKET: "RateLimitError"},
+    }
 
 
-def test_roles_failure_in_scoring_also_marks(monkeypatch):
-    # failure later in the pipeline (scoring) is caught the same way
-    monkeypatch.setattr(roles_mod, "_find", lambda profile: "search text")
-    monkeypatch.setattr(roles_mod, "_extract", _boom)
-    out = roles_mod.roles_node({"profile": {"skills": [], "domain": "d", "logistics": "l"}})
-    assert out == {"worker_status": {ROLES: "failed"}}
+# --- non-transient errors propagate (bugs must not be hidden) -----------------
+
+
+def test_roles_node_propagates_runtime_error(monkeypatch):
+    monkeypatch.setattr(roles_mod, "_find", _raise(RuntimeError("bug")))
+    with pytest.raises(RuntimeError, match="bug"):
+        roles_mod.roles_node({"profile": {"skills": [], "domain": "d", "logistics": "l"}})
+
+
+def test_market_node_propagates_key_error(monkeypatch):
+    monkeypatch.setattr(market_mod, "_gather", _raise(KeyError("missing")))
+    with pytest.raises(KeyError):
+        market_mod.market_node({"question": "any trend question"})
