@@ -28,8 +28,6 @@ class _StubLLM:
 def test_entry_routes_to_expected_plan(monkeypatch, valid_profile, route, expected_plan):
     monkeypatch.setattr(entry_mod, "get_structured_llm", lambda schema: _StubLLM(route))
 
-    out = entry_mod.entry_node(
-        {"profile": valid_profile.model_dump(), "question": "any question"}
-    )
+    out = entry_mod.entry_node({"profile": valid_profile.model_dump(), "question": "any question"})
 
     assert out == {"plan": expected_plan}

@@ -24,7 +24,7 @@ def route_next(state: dict) -> str:
     worker_status = state.get("worker_status", {})
     for field in state["plan"]:
         worker = FIELD_TO_WORKER[field]
-        if not state.get(field) and worker_status.get(worker) != "failed":
+        if field not in state and worker_status.get(worker) != "failed":
             logger.info("supervisor.route", extra={"next": worker})
             return worker
     logger.info("supervisor.route", extra={"next": "END"})
