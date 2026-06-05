@@ -1,3 +1,4 @@
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -20,9 +21,12 @@ from core.config import (
     OPENAI_EMBEDDING_MODEL,
     RAGAS_FILENAME_TEMPLATE,
 )
+from core.logging import setup_logging
 from core.validators import validate_openai_llm_env
 from ingestion.evaluation_questions import EVAL_QUESTIONS
 from ingestion.rag import answer_question
+
+logger = logging.getLogger(__name__)
 
 # ragas 0.4.3 imports ChatVertexAI from langchain_community.chat_models.vertexai,
 # a path removed in langchain-community 0.4.x. Redirect it to the successor package
@@ -75,6 +79,7 @@ def run_evaluation():
 
 
 def main() -> None:
+    setup_logging()
     load_dotenv()
     validate_openai_llm_env()
     results = run_evaluation()
@@ -86,7 +91,7 @@ def main() -> None:
     output_path = output_dir / RAGAS_FILENAME_TEMPLATE.format(timestamp=timestamp)
 
     results.to_pandas().to_csv(output_path, index=False)
-    print(f"Saved: {output_path}")
+    logger.info("evaluate.saved", extra={"path": str(output_path)})
 
 
 if __name__ == "__main__":

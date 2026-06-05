@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Type
 
@@ -12,6 +13,8 @@ from core.validators import validate_db_env, validate_readonly_db_env
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
+
 
 def bulk_upsert(
     session: Session, model: Type[DeclarativeBase], records: list, conflict_columns: list
@@ -22,7 +25,14 @@ def bulk_upsert(
         stmt = stmt.on_conflict_do_nothing(index_elements=conflict_columns)
         session.execute(stmt)
         session.commit()
-        print(f"{model.__tablename__}: batch {i // UPSERT_BATCH_SIZE + 1} ({len(batch)} rows)")
+        logger.info(
+            "bulk_upsert.batch",
+            extra={
+                "table": model.__tablename__,
+                "batch": i // UPSERT_BATCH_SIZE + 1,
+                "rows": len(batch),
+            },
+        )
 
 
 def get_engine() -> Engine:

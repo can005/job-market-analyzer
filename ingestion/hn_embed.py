@@ -1,4 +1,5 @@
 import json
+import logging
 
 from dotenv import load_dotenv
 from langchain_openai import OpenAIEmbeddings
@@ -10,8 +11,11 @@ from core.config import (
     HN_RAW_DATA_PATH,
     OPENAI_EMBEDDING_MODEL,
 )
+from core.logging import setup_logging
 from core.validators import validate_openai_llm_env
 from ingestion.db import get_connection_string
+
+logger = logging.getLogger(__name__)
 
 
 def load_hn_data() -> tuple[list, list]:
@@ -34,13 +38,14 @@ def load_hn_postings(texts: list, metadatas: list) -> None:
 
 
 def main() -> None:
+    setup_logging()
     try:
         load_dotenv()
         validate_openai_llm_env()
         texts, metadatas = load_hn_data()
-        print(f"Loaded {len(texts)} postings")
+        logger.info("hn_embed.loaded", extra={"posting_count": len(texts)})
         load_hn_postings(texts, metadatas)
-        print("Done embedding")
+        logger.info("hn_embed.done")
     except EnvironmentError as e:
         raise EnvironmentError(f"Configuration error: {e}")
     except Exception as e:

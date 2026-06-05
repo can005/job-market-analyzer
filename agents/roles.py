@@ -1,3 +1,5 @@
+import logging
+
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 
@@ -12,6 +14,8 @@ from core.config import (
 from core.errors import TRANSIENT_LLM_ERRORS
 from core.llm import get_chat_llm, get_structured_llm
 from core.schemas import CandidatesSchema, ScoreSchema
+
+logger = logging.getLogger(__name__)
 
 _FIND_SYS = (
     "You search Hacker News job postings for roles matching the candidate "
@@ -95,7 +99,9 @@ def _find(profile: dict) -> str:
         system_prompt=_FIND_SYS,
     )
     result = agent.invoke({"messages": [HumanMessage(f"Candidate profile: {profile}")]})
-    return collect_tool_output(result)
+    search_text = collect_tool_output(result)
+    logger.info("roles.find.done", extra={"search_text_chars": len(search_text)})
+    return search_text
 
 
 def _extract(search_text: str, profile: dict) -> list:
@@ -106,12 +112,13 @@ def _extract(search_text: str, profile: dict) -> list:
             HumanMessage(f"Profile: {profile}\n\nSearch results:\n{search_text}"),
         ]
     )
+    logger.info("roles.extract.done", extra={"candidates": len(out.candidates)})
     return out.candidates
 
 
 def _score_one(candidate, profile: dict) -> ScoreSchema:
     llm = get_structured_llm(ScoreSchema)
-    return llm.invoke(
+    score = llm.invoke(
         [
             {"role": "system", "content": _SCORE_SYS},
             HumanMessage(
@@ -121,6 +128,8 @@ def _score_one(candidate, profile: dict) -> ScoreSchema:
             ),
         ]
     )
+    logger.info("roles.score.done", extra={"list_position": candidate.list_position})
+    return score
 
 
 def _classify(candidate, score: ScoreSchema) -> dict:
@@ -151,8 +160,10 @@ def roles_node(state: dict) -> dict:
         search_text = _find(profile)
         candidates = _extract(search_text, profile)[:SCORE_MAX_CANDIDATES]
         scored = [_classify(c, _score_one(c, profile)) for c in candidates]
+        logger.info("roles.done", extra={"scored": len(scored)})
         return {"scored": scored}
     except TRANSIENT_LLM_ERRORS as e:
+        logger.warning("roles.transient", extra={"error_type": type(e).__name__})
         return {
             "worker_status": {ROLES: "failed"},
             "worker_errors": {ROLES: type(e).__name__},

@@ -1,6 +1,11 @@
+import logging
+
 import pandas as pd
 
 from core.config import CLEAN_DATA_DIR, MARKET_AGGREGATE_CSV, MARKET_SECTOR_CSV, RAW_DATA_DIR
+from core.logging import setup_logging
+
+logger = logging.getLogger(__name__)
 
 
 def clean_aggregate(df: pd.DataFrame) -> pd.DataFrame:
@@ -20,34 +25,33 @@ def clean_sector(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def process_aggregate() -> None:
-    print("=========== Aggregate Begin ==========")
+    logger.info("market_clean.aggregate.begin")
 
     df = pd.read_csv(RAW_DATA_DIR + MARKET_AGGREGATE_CSV)
+    logger.info("market_clean.aggregate.raw", extra={"shape": list(df.shape)})
 
-    print(f"Raw shape {df.shape}")
     df = clean_aggregate(df)
-    print(f"Clean shape {df.shape}")
+    logger.info("market_clean.aggregate.clean", extra={"shape": list(df.shape)})
 
     df.to_csv(CLEAN_DATA_DIR + MARKET_AGGREGATE_CSV, index=False)
-
-    print("=========== Aggregate Done ==========")
+    logger.info("market_clean.aggregate.done")
 
 
 def process_sector() -> None:
-    print("=========== Sector Begin ==========")
+    logger.info("market_clean.sector.begin")
 
     df = pd.read_csv(RAW_DATA_DIR + MARKET_SECTOR_CSV)
+    logger.info("market_clean.sector.raw", extra={"shape": list(df.shape)})
 
-    print(f"Raw shape {df.shape}")
     df = clean_sector(df)
-    print(f"Clean shape {df.shape}")
+    logger.info("market_clean.sector.clean", extra={"shape": list(df.shape)})
 
     df.to_csv(CLEAN_DATA_DIR + MARKET_SECTOR_CSV, index=False)
-
-    print("=========== Sector Done ==========")
+    logger.info("market_clean.sector.done")
 
 
 def main() -> None:
+    setup_logging()
     process_aggregate()
     process_sector()
 
