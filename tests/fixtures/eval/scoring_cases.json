@@ -1,37 +1,810 @@
 [
   {
-    "id": "SC001",
+    "id": "SS01",
     "profile": {
       "skills": [
-        {"skill": "Python", "years": 8},
-        {"skill": "FastAPI", "years": 3}
+        {
+          "skill": "Python",
+          "years": 7
+        },
+        {
+          "skill": "FastAPI",
+          "years": 4
+        },
+        {
+          "skill": "TypeScript",
+          "years": 3
+        }
       ],
-      "domain": "backend systems",
-      "logistics": "remote, US"
+      "domain": "backend product engineering for healthcare workflows",
+      "logistics": "hybrid NYC, comfortable onsite some days"
     },
     "candidate": {
-      "hn_id": 46469865,
-      "raw_text": "Ionworks | Founding Systems Engineer | Remote (US) or Pittsburgh, PA | Full-time. Ionworks builds battery simulation and optimization software used by R&D teams designing next-generation batteries. We are looking for a founding backend / systems engineer to own big pieces of our backend and help us scale. Stack: FastAPI, async Python, Supabase/Postgres.",
+      "hn_id": 47602687,
+      "raw_text": "Ascertain | NYC (Hybrid) | Senior Product Engineer | Python, FastAPI, TypeScript We’re building software to fix messy, real-world healthcare workflows—the kind that don’t fit neatly into SaaS. This is a high-autonomy role for engineers who want ownership. You’ll work directly with customers, turn ambiguous problems into working systems, and ship end-to-end. We’re looking for someone who’s shipped real systems, is comfortable with ambiguity, and enjoys solving problems beyond the code. $130K–$175K + equity + benefits Apply:  https://www.ascertain.com/careers?ashby_jid=b0c3a042-99a1-40...",
       "required_skills": [
-        {"skill": "Python", "years_required": null, "level": "strong", "matched_profile_skill": "Python"},
-        {"skill": "FastAPI", "years_required": null, "level": "proficient", "matched_profile_skill": "FastAPI"}
+        {
+          "skill": "Python",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Python"
+        },
+        {
+          "skill": "FastAPI",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "FastAPI"
+        },
+        {
+          "skill": "TypeScript",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "TypeScript"
+        }
       ]
     },
     "expected_band": "strong"
   },
   {
-    "id": "SC002",
+    "id": "SS02",
     "profile": {
-      "skills": [{"skill": "Python", "years": 5}],
-      "domain": "backend systems",
-      "logistics": "remote, EU"
+      "skills": [
+        {
+          "skill": "Ruby",
+          "years": 7
+        },
+        {
+          "skill": "JavaScript",
+          "years": 6
+        },
+        {
+          "skill": "TypeScript",
+          "years": 5
+        },
+        {
+          "skill": "React",
+          "years": 5
+        }
+      ],
+      "domain": "full-stack engineering for mission-driven SaaS data platforms",
+      "logistics": "hybrid Sacramento, occasional travel ok"
     },
     "candidate": {
-      "hn_id": 47621535,
-      "raw_text": "Antioch | Simulation Engineer | New York City | Full Time. Antioch is building the simulation platform for robotics and perception systems. Build high-fidelity models of sensors and physical components.",
+      "hn_id": 47975760,
+      "raw_text": "UpMetrics | Full Stack Software Engineer | Hybrid (Sacramento, CA) | Full Time | $145k-$170k UpMetrics provides an impact reporting platform and expert services designed to help mission-driven organizations and funders leverage data to accelerate social change. By combining innovative technology with community building, we empower partners to collect insights, secure capital, and share compelling stories to achieve their goals. We’re looking for a Full Stack Engineer to join our mission-driven team and help build the technology that powers social impact. This role is primarily remote with occasional meetups in Sacramento with our Director of Engineering. Stack: Ruby (flexible if you know Python), JavaScript/TypeScript, Vue (or React, Svelte) Looking for: 6+ YOE, startup experience Check out the full job description & apply here:  https://jobs.lever.co/UpMetrics/62b78791-e881-44c7-bf21-c82b... (Applicants must be authorized to work in the United States. UpMetrics is unable to sponsor or take over sponsorship of employment visas at this time.)",
       "required_skills": [
-        {"skill": "simulation", "years_required": null, "level": "strong", "matched_profile_skill": null},
-        {"skill": "robotics", "years_required": null, "level": "proficient", "matched_profile_skill": null}
+        {
+          "skill": "Ruby",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Ruby"
+        },
+        {
+          "skill": "JavaScript/TypeScript",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "TypeScript"
+        },
+        {
+          "skill": "Vue or React or Svelte",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "React"
+        }
+      ]
+    },
+    "expected_band": "strong"
+  },
+  {
+    "id": "SS03",
+    "profile": {
+      "skills": [
+        {
+          "skill": "Kubernetes",
+          "years": 8
+        },
+        {
+          "skill": "Python",
+          "years": 6
+        },
+        {
+          "skill": "Linux",
+          "years": 10
+        },
+        {
+          "skill": "PostgreSQL",
+          "years": 5
+        },
+        {
+          "skill": "Ansible",
+          "years": 4
+        }
+      ],
+      "domain": "SRE / platform engineering on multi-region Kubernetes",
+      "logistics": "fully remote within AUS/NZ"
+    },
+    "candidate": {
+      "hn_id": 48004707,
+      "raw_text": "Aptira | Fully Remote AUS/NZ | Full-time | Senior SRE We're an Australian consulting company currently building out a multi region baremetal Kubernetes cluster for a client experiencing explosive growth and looking \nfor SREs to help keep it running. At the base: Kata Containers, Kyverno, Cilium, TopoLVM and Ceph Workloads: Python microservices, Kafka, Postgres, Valkey and MongoDB Observability using Grafana LGTM and automated using Ansible, Helm and BitBucket. We're looking for a Senior SRE with some Kubernetes experience, decent security chops and good systems knowledge to help out on the platform engineering team. If that sounds like you, get in touch with us via careers <at> aptira <dot> com",
+      "required_skills": [
+        {
+          "skill": "Kubernetes",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "Kubernetes"
+        },
+        {
+          "skill": "Python",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "Python"
+        },
+        {
+          "skill": "Linux systems knowledge",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Linux"
+        },
+        {
+          "skill": "Security",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": null
+        }
+      ]
+    },
+    "expected_band": "strong"
+  },
+  {
+    "id": "SS04",
+    "profile": {
+      "skills": [
+        {
+          "skill": "Python",
+          "years": 8
+        },
+        {
+          "skill": "PyTorch",
+          "years": 5
+        },
+        {
+          "skill": "CUDA",
+          "years": 4
+        },
+        {
+          "skill": "distributed systems",
+          "years": 6
+        },
+        {
+          "skill": "LLM inference",
+          "years": 3
+        }
+      ],
+      "domain": "ML infrastructure for production LLM inference at scale",
+      "logistics": "hybrid Austin or SF, willing onsite"
+    },
+    "candidate": {
+      "hn_id": 47977223,
+      "raw_text": "Cloudflare | Systems or ML Engineer, Workers AI | Austin, TX or London, UK or San Francisco, CA (Hybrid) | Full-Time |  https://cloudflare.com Cloudflare is building across the entire AI stack. Here are some exciting things that we have launched recently: - Kimi k2.5:  https://blog.cloudflare.com/workers-ai-large-models/ - Kimi Performance Improvements:  https://blog.cloudflare.com/high-performance-llms/ - Kimi k2.6 Speculative Decoding and Shared KV Cache:  https://x.com/kevin_flansburg/status/2050238819065299110 - Unweight Tensor Compression:  https://blog.cloudflare.com/unweight-tensor-compression/ - Code Mode MCP Servers:  https://blog.cloudflare.com/code-mode/ - Agents SDK:  https://blog.cloudflare.com/building-agents-with-openai-and-... - Agent Memory:  https://blog.cloudflare.com/introducing-agent-memory/ - Internal AI Tooling:  https://blog.cloudflare.com/internal-ai-engineering-stack/ - Release Cog v0.19:  https://github.com/replicate/cog/releases/tag/v0.19.0 - Dynamic Worker Sandboxes:  https://blog.cloudflare.com/dynamic-workers/ - Dynamic Workflows:  https://blog.cloudflare.com/dynamic-workflows/ We are looking for systems and ML engineers to help build our edge inference platform: - Senior Systems Engineer, Workers AI -  https://job-boards.greenhouse.io/cloudflare/jobs/7764827?gh_... - Senior / Principal Machine Learning Engineer, Workers AI-  https://job-boards.greenhouse.io/cloudflare/jobs/6297179?gh_...",
+      "required_skills": [
+        {
+          "skill": "ML engineering",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "PyTorch"
+        },
+        {
+          "skill": "Distributed systems",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "distributed systems"
+        },
+        {
+          "skill": "LLM inference",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "LLM inference"
+        }
+      ]
+    },
+    "expected_band": "strong"
+  },
+  {
+    "id": "SS05",
+    "profile": {
+      "skills": [
+        {
+          "skill": "iOS",
+          "years": 10
+        },
+        {
+          "skill": "Swift",
+          "years": 8
+        },
+        {
+          "skill": "SwiftUI",
+          "years": 4
+        }
+      ],
+      "domain": "iOS engineering for consumer mobile platforms",
+      "logistics": "onsite NYC, in-office full-time"
+    },
+    "candidate": {
+      "hn_id": 47977299,
+      "raw_text": "CLEAR | Senior Software Engineers (Fullstack & Backend), Staff/Lead iOS Engineer, Infrastructure Engineers| NYC Onsite (4-5 days in-office w/ free catered lunch daily) |  https://www.clearme.com/ CLEAR is building THE secure identity company of the future. Our mission is to make experiences safer and easier—physically and digitally. With more than 38 million Members and a growing network of partners across the world, CLEAR's secure identity platform is transforming the way people live, work, and travel. Whether it’s at the airport, stadium, or throughout your everyday life, CLEAR unlocks the magic of frictionless experiences. If interested, apply here -->  https://grnh.se/e4e5dc881us",
+      "required_skills": [
+        {
+          "skill": "iOS engineering",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "iOS"
+        },
+        {
+          "skill": "Swift",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Swift"
+        }
+      ]
+    },
+    "expected_band": "strong"
+  },
+  {
+    "id": "SM01",
+    "profile": {
+      "skills": [
+        {
+          "skill": "TypeScript",
+          "years": 6
+        },
+        {
+          "skill": "Python",
+          "years": 5
+        },
+        {
+          "skill": "Next.js",
+          "years": 3
+        },
+        {
+          "skill": "PostgreSQL",
+          "years": 4
+        }
+      ],
+      "domain": "founding-engineer full-stack for agent platforms and AI infra",
+      "logistics": "fully remote, EU timezone"
+    },
+    "candidate": {
+      "hn_id": 48005277,
+      "raw_text": "Deepline | NYC (ONSITE) | Founding Full-stack Engineers and Forward Deployed Engineers | $160k–$220k + meaningful equity User interfaces are dead. Knowledge workers will exclusively work through agent interfaces like Claude Code/Cowork. We've built the interface layer to enable that. One API that unifies hundreds of data providers, workflows, and data infrastructure to agents like Claude Code.\nWe shipped our mvp last month; hundreds of early adopters signed up and are using Deepline. You'd build core platform: agent-facing abstractions, infrastructure, UI. TypeScript/Python/Next.js/Postgres.\n$3.3M raised from Lerer Hippeau + Looker founding team. Technical founding team from Uber, Lyft, Capchase, MIT, Waterloo. https://code.deepline.com/careers",
+      "required_skills": [
+        {
+          "skill": "TypeScript",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "TypeScript"
+        },
+        {
+          "skill": "Python",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Python"
+        },
+        {
+          "skill": "Next.js",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "Next.js"
+        },
+        {
+          "skill": "PostgreSQL",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "PostgreSQL"
+        }
+      ]
+    },
+    "expected_band": "moderate"
+  },
+  {
+    "id": "SM02",
+    "profile": {
+      "skills": [
+        {
+          "skill": "TypeScript",
+          "years": 7
+        },
+        {
+          "skill": "React",
+          "years": 6
+        },
+        {
+          "skill": "Node.js",
+          "years": 5
+        },
+        {
+          "skill": "PostgreSQL",
+          "years": 5
+        },
+        {
+          "skill": "Docker",
+          "years": 4
+        }
+      ],
+      "domain": "full-stack engineering for B2B SaaS in fintech and payments",
+      "logistics": "hybrid London, willing to commute Bristol"
+    },
+    "candidate": {
+      "hn_id": 47324849,
+      "raw_text": "Spruce (London/Bristol, UK) — Lead Full Stack Engineer — £85–120k + equity — Hybrid Spruce builds the operating system for heat pump installation businesses across the UK. The UK needs to install 600,000 heat pumps a year to hit net zero by 2050 — right now we're at ~100,000. We're building the software to close that gap, supporting 500+ installers and growing fast. Founded early 2024, VC-backed. The problems are genuinely interesting: 2D floor-plan geometry and drawing tools, offline-first PWAs with sync conflict resolution, cross-company job sharing with RBAC permissions, underfloor heating physics and hydronics calculations, LiDAR integration, and solar and battery systems. Stack: TypeScript, React, Node.js, PostgreSQL/PostGIS, Prisma, Docker, Konva, Tailwind. You'd own slices of architecture and technical strategy, write high-leverage code on critical paths, and mentor a growing engineering team — while still spending most of your time hands-on. Looking for someone strong in TypeScript across the full stack, who's product-minded and wants real ownership over what they build. 33 days holiday + 30 days/year working abroad. Hybrid (2 days/week in office). Nursery benefits. Apply: nick@spruce.eco",
+      "required_skills": [
+        {
+          "skill": "TypeScript",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "TypeScript"
+        },
+        {
+          "skill": "React",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "React"
+        },
+        {
+          "skill": "Node.js",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "Node.js"
+        },
+        {
+          "skill": "PostgreSQL/PostGIS",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "PostgreSQL"
+        },
+        {
+          "skill": "Konva (2D drawing/canvas)",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": null
+        }
+      ]
+    },
+    "expected_band": "moderate"
+  },
+  {
+    "id": "SM03",
+    "profile": {
+      "skills": [
+        {
+          "skill": "Python",
+          "years": 3
+        },
+        {
+          "skill": "Golang",
+          "years": 2
+        },
+        {
+          "skill": "Linux",
+          "years": 4
+        },
+        {
+          "skill": "Kubernetes",
+          "years": 2
+        },
+        {
+          "skill": "AWS",
+          "years": 3
+        }
+      ],
+      "domain": "site reliability and security tooling for cloud infrastructure",
+      "logistics": "remote within US"
+    },
+    "candidate": {
+      "hn_id": 47772418,
+      "raw_text": "MongoDB | Staff/Senior Security Software Engineer or SRE - Infrastructure Security | REMOTE (US) or HYBRID (NYC) | Full-Time We are looking for experienced Software and Site Reliability Engineers to help secure the foundation of MongoDB Atlas, our globally distributed, multi-cloud database platform running across AWS, GCP and Azure. This is a builder role, focusing on security tooling and observability, runtime detection, hardening policies, and infrastructure-as-code guardrails that protect our massive infrastructure. Some of the things we're working on: - Building secure-by-default infrastructure leveraging Linux, eBPF and Kubernetes security mechanisms, and implementing runtime detection and monitoring. - Developing our in-house CSPM (Cloud Security Posture Management) and Vulnerability Management platforms. - Integrating security directly into our CI/CD workflows and Terraform pipelines. We're looking for engineers with a strong systems mindset who have some of: - 5+ years of experience in SWE, SRE, or similar roles with some relevant security experience. - Proficiency in one programming language: Golang, Rust, Python, C/C++ etc. - Deep understanding of Linux internals, networking, and Kubernetes security. - Familiarity with one major cloud provider (AWS, GCP or Azure.) - A builder's mentality: you think about failure modes, observability, and operability alongside security and correctness. For any questions, or to apply (mention HN):\nEmail: hani.benhabiles+hn@mongodb.com\nJD:  https://www.mongodb.com/careers/jobs/7727896 Other SRE / Infrastructure teams as are also hiring. Happy to help.",
+      "required_skills": [
+        {
+          "skill": "SWE/SRE experience",
+          "years_required": 5,
+          "level": "strong",
+          "matched_profile_skill": "Python"
+        },
+        {
+          "skill": "Golang/Rust/Python",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "Python"
+        },
+        {
+          "skill": "Linux internals",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Linux"
+        },
+        {
+          "skill": "Kubernetes security",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Kubernetes"
+        },
+        {
+          "skill": "AWS/GCP/Azure",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": "AWS"
+        }
+      ]
+    },
+    "expected_band": "moderate"
+  },
+  {
+    "id": "SM04",
+    "profile": {
+      "skills": [
+        {
+          "skill": "AWS",
+          "years": 6
+        },
+        {
+          "skill": "Terraform",
+          "years": 4
+        },
+        {
+          "skill": "Linux",
+          "years": 8
+        },
+        {
+          "skill": "Kubernetes",
+          "years": 5
+        }
+      ],
+      "domain": "platform engineering on AWS for CI/CD pipelines",
+      "logistics": "remote EU"
+    },
+    "candidate": {
+      "hn_id": 47309646,
+      "raw_text": "Bitrise (YC, CI/CD for DevOps) | Senior/Staff Infrastructure Engineer | Remote (EU); Budapest, Hungary Own the full stack for real: BGP/EVPN, transit, data center hardware, one of the world's largest Mac build fleets, and a private cloud spanning multiple locations — not just wiring up AWS components. Hybrid Linux/macOS environment, heavy Terraform/Ansible, usage. If blinking LEDs and routing tables get you going, this is the rare infra role where you can touch everything end-to-end. https://bitrise.bamboohr.com/careers/130",
+      "required_skills": [
+        {
+          "skill": "BGP/EVPN networking",
+          "years_required": null,
+          "level": "expert",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Linux",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Linux"
+        },
+        {
+          "skill": "Terraform/Ansible",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "Terraform"
+        },
+        {
+          "skill": "Mac build environment",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": null
+        }
+      ]
+    },
+    "expected_band": "moderate"
+  },
+  {
+    "id": "SM05",
+    "profile": {
+      "skills": [
+        {
+          "skill": "AWS",
+          "years": 3
+        },
+        {
+          "skill": "Python",
+          "years": 3
+        },
+        {
+          "skill": "Terraform",
+          "years": 2
+        },
+        {
+          "skill": "Kubernetes",
+          "years": 2
+        }
+      ],
+      "domain": "DevOps and platform engineering for web applications",
+      "logistics": "onsite Bay Area preferred, would prefer hybrid"
+    },
+    "candidate": {
+      "hn_id": 48229177,
+      "raw_text": "Apple | Sr. DevOps Engineer | Bay Area | Onsite We are looking for a Platform Engineer with API and Infrastructure experience who has written web applications and knows how to deploy and scale code to production environments they helped create. https://jobs.apple.com/en-us/details/200631016-0836/devops-e...",
+      "required_skills": [
+        {
+          "skill": "Platform engineering",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "AWS"
+        },
+        {
+          "skill": "API/Infrastructure",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": "AWS"
+        },
+        {
+          "skill": "Web application deployment",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Scaling production systems",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        }
+      ]
+    },
+    "expected_band": "moderate"
+  },
+  {
+    "id": "SW01",
+    "profile": {
+      "skills": [
+        {
+          "skill": "React",
+          "years": 4
+        },
+        {
+          "skill": "TypeScript",
+          "years": 3
+        },
+        {
+          "skill": "Vue",
+          "years": 2
+        },
+        {
+          "skill": "CSS",
+          "years": 5
+        }
+      ],
+      "domain": "frontend product engineering for consumer SaaS",
+      "logistics": "fully remote, AMER timezone"
+    },
+    "candidate": {
+      "hn_id": 48004193,
+      "raw_text": "Flow Traders | Research Engineer | Hong Kong/ London (onsite) | Full Time | Visa | Relocation Flow Traders is a leading proprietary trading firm with an entrepreneurial and innovative Tech culture at the heart of its business. We are looking for Research Engineers in our Hong Kong office. Join us build and scale the research framework behind our systematic trading models. You’ll work closely with Quantitative Researchers, drive end‑to‑end ML pipelines, and shape global standards for data‑driven model development. Research Engineers have joint responsibility for conducting research and delivering models. You’ll thrive if you have: - 8+ years in ML / Data Science / Research Engineering (Postdoc/Faculty can count towards this); - Strong Python and libraries such as Ray, numpy, PyTorch, and pandas; - Solid math/stats background; - Experience with modern dev practices & cloud technologies. If you're interested, apply here:  https://lnkd.in/dWhh_m28 Or if you'd like to see other roles at Flow Traders, please check our careers website:  https://flowtraders.com/careers/",
+      "required_skills": [
+        {
+          "skill": "Machine Learning",
+          "years_required": 8,
+          "level": "expert",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Python",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Ray/numpy/PyTorch/pandas",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Math/Statistics",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        }
+      ]
+    },
+    "expected_band": "weak"
+  },
+  {
+    "id": "SW02",
+    "profile": {
+      "skills": [
+        {
+          "skill": "JavaScript",
+          "years": 2
+        },
+        {
+          "skill": "Node.js",
+          "years": 2
+        },
+        {
+          "skill": "React",
+          "years": 1
+        }
+      ],
+      "domain": "fullstack web development for early-stage SaaS startups",
+      "logistics": "remote, EU based"
+    },
+    "candidate": {
+      "hn_id": 48027869,
+      "raw_text": "Capital Technology Group (CTG) | Senior AI/ML Engineer | Remote (US Only) | $150K–$200K\nWe build and deploy production systems for federal clients—focused on modernizing government software.\nLooking for a Senior AI/ML Engineer who can take models from prototype to production in AWS. What you’ll do:\nBuild and deploy AI/ML solutions (POC → production)\nWork across Python, data pipelines, and cloud (AWS)\nEvaluate new tools and make practical tradeoffs\nMentor engineers and lead small teams Requirements:\n7–10+ years experience\nProduction experience in AWS\nExperience deploying ML systems (TensorFlow/PyTorch)\nStrong communication skills Must have:\nUS Citizen Eligible for Public Trust\nIf interested, send your resume to bhemphill@capitaltg.com and mention you saw this on Hacker News.",
+      "required_skills": [
+        {
+          "skill": "AI/ML production deployment",
+          "years_required": 7,
+          "level": "expert",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Python",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "AWS",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "TensorFlow/PyTorch",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        }
+      ]
+    },
+    "expected_band": "weak"
+  },
+  {
+    "id": "SW03",
+    "profile": {
+      "skills": [
+        {
+          "skill": "iOS",
+          "years": 5
+        },
+        {
+          "skill": "Swift",
+          "years": 4
+        },
+        {
+          "skill": "SwiftUI",
+          "years": 2
+        }
+      ],
+      "domain": "iOS mobile development for consumer apps",
+      "logistics": "remote within EU, willing for hybrid"
+    },
+    "candidate": {
+      "hn_id": 48016314,
+      "raw_text": "Freeform ( http://freeform.co ) | Software Engineers | Full-time | Onsite | Hawthorne, CA (Los Angeles County) Freeform builds AI-native manufacturing systems that unify software, hardware, and physics to produce industrial-scale parts at the speed of human ideation. By treating manufacturing as a single integrated system, we unlock a new era of innovation where complex hardware is designed, built, and scaled without limits. This isn’t just an improvement; it’s a leap forward in how complex metal parts are made, with the ability to revolutionize industries like aerospace, defense, automotive, energy, and beyond. We are backed by top VCs including NVIDIA’s NVentures, Founders Fund, Threshold Ventures, and Apandion. It’s a small, tight-knit team and you’d have the opportunity to own significant and impactful greenfield projects throughout the entire development lifecycle and much more. Our software team comes from the likes of Google, SpaceX, and Apple, and believes in taking a first principles approach to solving hard problems. A glimpse into our software landscape -  https://www.youtube.com/watch?v=nFWQArUkd5I Our feature in TechCrunch announcing our $67M Series B Raise!  https://techcrunch.com/2026/02/19/freeform-raises-67m-series... Current open positions: + Principal Software Engineer -  https://grnh.se/27ajbj9k3us + Senior Software Engineer -  https://grnh.se/m2l08z853us + Senior Software Engineer (Embedded) -  https://grnh.se/hb838bth3us + Software Engineer (Full Stack Enterprise) -  https://grnh.se/26cvuixl3us + Software Engineer -  https://grnh.se/hnwff2s23us",
+      "required_skills": [
+        {
+          "skill": "Software engineering",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Manufacturing systems / hardware integration",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "First-principles problem solving",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        }
+      ]
+    },
+    "expected_band": "weak"
+  },
+  {
+    "id": "SW04",
+    "profile": {
+      "skills": [
+        {
+          "skill": "Python",
+          "years": 8
+        },
+        {
+          "skill": "Django",
+          "years": 6
+        },
+        {
+          "skill": "PostgreSQL",
+          "years": 5
+        },
+        {
+          "skill": "Docker",
+          "years": 4
+        }
+      ],
+      "domain": "backend product engineering for B2B SaaS",
+      "logistics": "remote within US, flexible timezone"
+    },
+    "candidate": {
+      "hn_id": 47723777,
+      "raw_text": "Engineering Square | Business Development Representative | Remote (West Coast hours) | Full-Time | $55K-$70K + OTE $85K-$100K + Equity Our client, a Series A legal tech startup ($9.1M raised from Foundry Group + top law firms), is hiring 6 BDRs to join their sales team. You'll prospect outbound via phone, email, and LinkedIn to generate new opportunities, run discovery calls, and partner with AEs. Clear path to a closing AE role. Looking for: 1-2 years outbound B2B SaaS sales experience, strong phone presence, 60-80+ dials/day track record, CRM familiarity (HubSpot, ZoomInfo). Legal tech, fintech, compliance, or HR tech background is a plus. No visa sponsorship. Apply: saikumar@engineeringsquare.us (subject: \"BDR — Legal Tech — [Your Name]\")",
+      "required_skills": [
+        {
+          "skill": "B2B SaaS sales experience",
+          "years_required": 1,
+          "level": "proficient",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Outbound prospecting (phone/email/LinkedIn)",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "CRM (HubSpot/ZoomInfo)",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": null
+        }
+      ]
+    },
+    "expected_band": "weak"
+  },
+  {
+    "id": "SW05",
+    "profile": {
+      "skills": [
+        {
+          "skill": "Python",
+          "years": 7
+        },
+        {
+          "skill": "Kubernetes",
+          "years": 5
+        },
+        {
+          "skill": "AWS",
+          "years": 6
+        },
+        {
+          "skill": "Terraform",
+          "years": 4
+        }
+      ],
+      "domain": "platform / infrastructure engineering for cloud SaaS",
+      "logistics": "remote within US, prefer fully remote"
+    },
+    "candidate": {
+      "hn_id": 47984681,
+      "raw_text": "Mitte ( https://mitte.ai ) | Berlin | ONSITE | Full-Time Mitte is an AI creative suite. We've built our own media agent and we're hiring engineers who want this to be the best work of their career. Founded by an ex-Superhuman lead engineer. Lean startup and unix philosophy run deep at Mitte. We ship every day and like to design systems, be thoughtful about patterns and primitives before scaling the codebase, especially with AI. We're hiring: - Backend Engineer (Elixir, Go) — own services end-to-end, from agent orchestration to the systems that move media at scale. - Full-Stack Engineer (Go, TypeScript, Redux Toolkit) — build the surfaces creators actually use. Strong design taste and obsession with detail expected. Berlin, on-site. We work in the same room because the product is moving too fast for anything else. Reach out: careers@mitte.ai — tell us something you've built that you're proud of, and why it was hard. Berlin based applications only.",
+      "required_skills": [
+        {
+          "skill": "Elixir",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Go",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "TypeScript",
+          "years_required": null,
+          "level": "proficient",
+          "matched_profile_skill": null
+        },
+        {
+          "skill": "Agent orchestration / media scaling",
+          "years_required": null,
+          "level": "strong",
+          "matched_profile_skill": null
+        }
       ]
     },
     "expected_band": "weak"
