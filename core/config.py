@@ -42,5 +42,7 @@ PROFILE_FIELDS = ("skills", "domain", "logistics")
 
 SCORE_MAX_CANDIDATES = 5
 
+AGENT_INNER_RECURSION_LIMIT = 12
+
 MIN_YEARS = 0
 MAX_YEARS = 50

@@ -6,6 +6,7 @@ from langchain_core.messages import HumanMessage
 from agents.supervisor import ROLES
 from agents.tools import collect_tool_output, search_hn_job_postings
 from core.config import (
+    AGENT_INNER_RECURSION_LIMIT,
     SCORE_DIMENSIONS,
     SCORE_MAX_CANDIDATES,
     SCORE_WEIGHTS,
@@ -99,7 +100,10 @@ def _find(profile: dict) -> str:
         tools=[search_hn_job_postings],
         system_prompt=_FIND_SYS,
     )
-    result = agent.invoke({"messages": [HumanMessage(f"Candidate profile: {profile}")]})
+    result = agent.invoke(
+        {"messages": [HumanMessage(f"Candidate profile: {profile}")]},
+        config={"recursion_limit": AGENT_INNER_RECURSION_LIMIT},
+    )
     search_text = collect_tool_output(result)
     logger.info("roles.find.done", extra={"search_text_chars": len(search_text)})
     return search_text
