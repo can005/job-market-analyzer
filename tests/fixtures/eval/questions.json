@@ -1,35 +1,336 @@
 [
   {
-    "id": "Q001",
-    "question": "Where is Beacon AI based?",
+    "id": "SF01",
+    "question": "Is U.S. citizenship a hiring requirement for Revelare Networks' mobile role?",
     "type": "single_fact",
-    "gold_ids": [47976582],
+    "gold_ids": [47770252],
     "expected_abstain": false
   },
   {
-    "id": "Q002",
-    "question": "What is the salary range for the Support Engineer role at PetsApp?",
+    "id": "SF02",
+    "question": "In which U.S. city is Atom Computing's hybrid engineering office?",
     "type": "single_fact",
-    "gold_ids": [48006671],
+    "gold_ids": [48069453],
     "expected_abstain": false
   },
   {
-    "id": "Q003",
-    "question": "Which companies are hiring engineers for AI-related simulation or modelling work?",
+    "id": "SF03",
+    "question": "Which programming language did Griffin Bank choose for its core banking system?",
+    "type": "single_fact",
+    "gold_ids": [47224724],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF04",
+    "question": "What's the bottom of the salary band for Gladly's Staff AI & Automation Engineer?",
+    "type": "single_fact",
+    "gold_ids": [47977919],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF05",
+    "question": "Which carmaker is Latitude AI a subsidiary of?",
+    "type": "single_fact",
+    "gold_ids": [47985197],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF06",
+    "question": "What timezone does PlantingSpace require its remote engineers to work in?",
+    "type": "single_fact",
+    "gold_ids": [47221911],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF07",
+    "question": "What's the family name of Preferred Networks' in-house AI chips?",
+    "type": "single_fact",
+    "gold_ids": [47982988],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF08",
+    "question": "What base compensation does EnigmoFi list for its DevOps/SRE position?",
+    "type": "single_fact",
+    "gold_ids": [47229274],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF09",
+    "question": "What kind of advertising infrastructure does Mobian build with AI?",
+    "type": "single_fact",
+    "gold_ids": [47235390],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF10",
+    "question": "Where in Europe is Herakles Defense's founding engineer role based?",
+    "type": "single_fact",
+    "gold_ids": [46873054],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF11",
+    "question": "What is the name of AMD's GPU programming language project this role contributes to?",
+    "type": "single_fact",
+    "gold_ids": [46872073],
+    "expected_abstain": false
+  },
+  {
+    "id": "SF12",
+    "question": "Which industry does Luminate's data platform primarily serve?",
+    "type": "single_fact",
+    "gold_ids": [47605047],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH01",
+    "question": "Aqora and Atom Computing are both in quantum computing — which is based in Europe and which in the US?",
     "type": "multi_hop",
-    "gold_ids": [46469865, 47621535],
+    "gold_ids": [47976048, 48069453],
     "expected_abstain": false
   },
   {
-    "id": "Q004",
-    "question": "Does Antioch offer a fully remote role?",
-    "type": "single_fact",
-    "gold_ids": [47621535],
+    "id": "MH02",
+    "question": "BIT Capital and NetBird both hire in Berlin — what does each focus on?",
+    "type": "multi_hop",
+    "gold_ids": [47975618, 47975581],
     "expected_abstain": false
   },
   {
-    "id": "Q005",
-    "question": "Which company is hiring for an Antarctic field engineering role?",
+    "id": "MH03",
+    "question": "Deep Core Technology and Falconer are both hiring founding engineers — which one is fully remote within Canada?",
+    "type": "multi_hop",
+    "gold_ids": [47975833, 47976762],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH04",
+    "question": "Loophole Labs and Cenva Labs — which one pays more at the top end?",
+    "type": "multi_hop",
+    "gold_ids": [47975670, 47607508],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH05",
+    "question": "Kraken Tech and Enthought both hire in Tokyo — which is the scientific-software shop?",
+    "type": "multi_hop",
+    "gold_ids": [47985200, 46859499],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH06",
+    "question": "Metabase and Xledger are both Clojure shops — which one is open-source BI software?",
+    "type": "multi_hop",
+    "gold_ids": [46498756, 46857868],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH07",
+    "question": "What do E2B and LiveKit each build?",
+    "type": "multi_hop",
+    "gold_ids": [46858726, 47978767],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH08",
+    "question": "Mercor and Clad are both YC W23 — which is hiring in NYC?",
+    "type": "multi_hop",
+    "gold_ids": [47978339, 48015477],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH09",
+    "question": "Fastly and CrazyGames — which one is Europe-only for remote hires?",
+    "type": "multi_hop",
+    "gold_ids": [47975839, 47976500],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH10",
+    "question": "Sphinx Defense and CoVar are both in defense — which is US-remote and which is Durham-NC onsite?",
+    "type": "multi_hop",
+    "gold_ids": [48021536, 47976499],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH11",
+    "question": "Solace Health and Stellar — which one offers visa sponsorship?",
+    "type": "multi_hop",
+    "gold_ids": [47975870, 47984711],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH12",
+    "question": "SonarMD and Innolitics are both healthcare AI — which is hiring specifically for medical-device AI/ML?",
+    "type": "multi_hop",
+    "gold_ids": [47976095, 47977826],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH13",
+    "question": "Moyai and MONUMENTAL are both Amsterdam shops — which is building autonomous construction robots?",
+    "type": "multi_hop",
+    "gold_ids": [47975817, 47977422],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH14",
+    "question": "Smarkets and SwingVision are both sports tech — which runs a prediction-markets platform, which is a tennis/pickleball AI app?",
+    "type": "multi_hop",
+    "gold_ids": [47975828, 47979383],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH15",
+    "question": "Pathos AI and A24 Films both hire in NYC — which is the oncology biotech building AI for drug development?",
+    "type": "multi_hop",
+    "gold_ids": [47975574, 47976142],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH16",
+    "question": "Found and Borrowell are both Canadian fintechs — which is Series C?",
+    "type": "multi_hop",
+    "gold_ids": [47981089, 47978010],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH17",
+    "question": "River and Instinct Science are both Elixir+React shops — which is the one for veterinary medicine?",
+    "type": "multi_hop",
+    "gold_ids": [47977581, 47977972],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH18",
+    "question": "Between Beautiful.ai and Weave Bio, which is Series B and which is Series A?",
+    "type": "multi_hop",
+    "gold_ids": [47975952, 47615296],
+    "expected_abstain": false
+  },
+  {
+    "id": "MH19",
+    "question": "yeet and PostHog — which is fully remote across multiple timezones, and which is split between Chicago and remote?",
+    "type": "multi_hop",
+    "gold_ids": [47980297, 47980397],
+    "expected_abstain": false
+  },
+  {
+    "id": "DI01",
+    "question": "What stack does Synapse AI use for their neural-fabric platform?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI02",
+    "question": "What is the salary range advertised by DataFlow Labs for their senior data engineer role?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI03",
+    "question": "Where is Vertex Defense's founding-engineer role located?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI04",
+    "question": "What languages does Photon Computing require for its compiler-engineer role?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI05",
+    "question": "Does Helix Robotics offer visa sponsorship for European candidates?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI06",
+    "question": "What's the equity percentage at Boreal Networks for a senior engineer?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI07",
+    "question": "Which Fortune-500 clients does CoVar publicly list?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI08",
+    "question": "What carbon-neutrality commitment date has Fastly published?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI09",
+    "question": "How much total funding has BIT Capital raised across all rounds combined?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI10",
+    "question": "What is MONUMENTAL's Amsterdam HQ street address?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI11",
+    "question": "What pension or retirement-plan benefits does River offer staff engineers?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI12",
+    "question": "Which K-12 STEM education program does Atom Computing sponsor?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI13",
+    "question": "How many open-source contributors does Metabase report in its 2025 annual report?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI14",
+    "question": "How many PTO days does Smarkets offer per year?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI15",
+    "question": "Who is hiring for an Antarctic field-engineering role?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI16",
+    "question": "What's the salary range for the Mars colony software architect position?",
+    "type": "distractor",
+    "gold_ids": [],
+    "expected_abstain": true
+  },
+  {
+    "id": "DI17",
+    "question": "Who offers a remote-only blacksmithing apprenticeship?",
     "type": "distractor",
     "gold_ids": [],
     "expected_abstain": true
