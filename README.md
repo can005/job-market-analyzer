@@ -84,17 +84,37 @@ The eval splits along the two paths the system actually ships:
 - **Retrieval** — does the vector store rank the right HN postings for a given question? Non-LLM metrics: **hit@k** and **MRR** at the same `k=25` the agent uses.
 - **Ranking** — does the scorer assign the expected band to a known profile/posting pair? A **deterministic** band check (predicted vs expected) always runs; an optional **LLM judge** grades the rationale for rubric match and evidence grounding, catching right-band-via-hallucination cases.
 
-Both run against a frozen corpus at `tests/fixtures/eval/hn_corpus.json` (committed) and a question set at `tests/fixtures/eval/questions.json` (verified seed today; full ~48-question set weighted 25/40/35 across single-fact / multi-hop / distractor in progress). The embedding and judge models are pinned per run, and a local cache (`data/eval/cache/`) skips re-embedding when nothing changed.
+Both run against a frozen 1,679-posting corpus (`tests/fixtures/eval/hn_corpus.json`), a 48-question set weighted 25 / 40 / 35 across `single_fact` / `multi_hop` / `distractor` (`tests/fixtures/eval/questions.json`), and 15 hand-curated scoring cases balanced 5 / 5 / 5 across `strong` / `moderate` / `weak` expected bands (`tests/fixtures/eval/scoring_cases.json`). The embedding and judge models are pinned per run, and a local cache (`data/eval/cache/`) skips re-embedding when nothing changed.
 
 The judge is **pluggable** via `JUDGE_MODEL` (default `gpt-4o`; accepts `claude-*` with `ANTHROPIC_API_KEY`). Eval runs label which judge produced their results — scores from different judges aren't comparable as one yardstick.
 
-Reproduce with:
+### Baseline (scorer: gpt-4o-mini · judge: gpt-4o)
+
+| Eval | Metric | Value |
+|---|---|---|
+| Retrieval | hit@25 (31 scored Qs; 17 distractors held aside) | 1.00 |
+| Retrieval | MRR | 0.89 |
+| Scoring (deterministic) | band accuracy (15 cases) | 0.93 |
+| Reasoning (LLM judge) | mean rubric_match | 0.90 |
+| Reasoning (LLM judge) | mean evidence_grounded | 0.92 |
+
+### What the numbers say (and what they don't)
+
+**Retrieval — 1.00 / 0.89.** Every gold posting appears in the top-25, and on average the first gold sits at rank ≈1.1. The 31 scored questions include 19 multi-hop cases that genuinely require ≥2 postings; the 17 distractors (with `gold_ids: []`) are held aside in the aggregate — they're the abstention-honesty path the scoring eval exercises, not a retriever metric. So 1.00 here means the retriever consistently surfaces *both* postings a multi-hop question needs, not the single-document factoid case where 1.00 is usually suspicious.
+
+**Scoring — 0.93** with one informative miss:
+- `SM05` (Apple Senior DevOps + a junior platform-engineer profile) was authored as a borderline moderate (~2.95 expected band total, 2.50 = moderate floor). The scorer landed at 2.42 → `weak`. Band-edge miss, not a structural failure — the case exists exactly to probe calibration near the floor.
+
+**Reasoning — 0.90 / 0.92** with one flagged case:
+- `SS05` (CLEAR Staff iOS) — judge marked rubric_match 0.75 / evidence_grounded 0.50 because the rationale didn't address seniority. CLEAR's posting is sparse on stack/seniority detail, so the scorer had little to work with. Real signal: when the posting is thin, the rationale degrades even when the band is right. The next iteration is sharpening the scoring prompt to address all four rubric dimensions even when the posting is sparse.
+
+### Reproduce
 
 ```bash
 python -m evals.run
 ```
 
-Output: one JSON to `data/eval/results/` per run with metadata, per-question/per-case results, and summaries. No CI gating — the eval is read for what it reveals (per-question failures feed the design conversation), not used as a pass/fail threshold.
+Output: one JSON per run to `data/eval/results/` with run_id, embedding/judge model metadata, corpus hash, per-question + per-case results, and the summary metrics above. No CI gating — the eval is read for what its per-question failures reveal, not used as a pass/fail threshold.
 
 ---
 
