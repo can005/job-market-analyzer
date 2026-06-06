@@ -12,7 +12,7 @@ from core.config import (
     THRESHOLD_BANDS,
 )
 from core.errors import TRANSIENT_LLM_ERRORS
-from core.llm import get_chat_llm, get_structured_llm
+from core.llm import get_agent_chat_llm, get_structured_llm
 from core.schemas import CandidatesSchema, ScoreSchema
 
 logger = logging.getLogger(__name__)
@@ -95,7 +95,7 @@ _SCORE_SYS = (
 
 def _find(profile: dict) -> str:
     agent = create_agent(
-        model=get_chat_llm(),
+        model=get_agent_chat_llm(),
         tools=[search_hn_job_postings],
         system_prompt=_FIND_SYS,
     )
