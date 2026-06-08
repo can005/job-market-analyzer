@@ -24,6 +24,17 @@ _FIND_SYS = (
     "queries. Return the postings you find, referring to each by list position."
 )
 
+BROADENING_LADDER = (
+    "Relax the logistics constraint: drop the candidate's location/remote "
+    "preference and search on skills and domain alone.",
+    "Broaden to adjacent skills: search the same domain for roles using "
+    "neighbouring or related technologies, not only the exact profile skills.",
+    "Widen the net: ask the search tool for more results (a larger k, e.g. 50) "
+    "to reach postings beyond the closest matches.",
+    "Reformulate: search by domain and seniority with different phrasing, "
+    "treating specific skills as optional.",
+)
+
 _EXTRACT_SYS = (
     "From the search results below, extract each relevant posting as a "
     "candidate. Use the posting's HN id (shown after `id:`) as hn_id and its "
@@ -94,18 +105,30 @@ _SCORE_SYS = (
 )
 
 
-def _find(profile: dict) -> str:
+def _ladder_directive(passes: int) -> str | None:
+    if passes == 0:
+        return None
+    return BROADENING_LADDER[min(passes - 1, len(BROADENING_LADDER) - 1)]
+
+
+def _find(profile: dict, directive: str | None = None) -> str:
     agent = create_agent(
         model=get_agent_chat_llm(),
         tools=[search_hn_job_postings],
         system_prompt=_FIND_SYS,
     )
+    human = f"Candidate profile: {profile}"
+    if directive:
+        human += f"\n\nThe earlier search was too narrow. {directive}"
     result = agent.invoke(
-        {"messages": [HumanMessage(f"Candidate profile: {profile}")]},
+        {"messages": [HumanMessage(human)]},
         config={"recursion_limit": AGENT_INNER_RECURSION_LIMIT},
     )
     search_text = collect_tool_output(result)
-    logger.info("roles.find.done", extra={"search_text_chars": len(search_text)})
+    logger.info(
+        "roles.find.done",
+        extra={"search_text_chars": len(search_text), "broadened": directive is not None},
+    )
     return search_text
 
 
@@ -175,12 +198,27 @@ def _classify(candidate, score: ScoreSchema) -> dict:
 def roles_node(state: dict) -> dict:
     try:
         profile = state["profile"]
-        search_text = _find(profile)
-        candidates = _extract(search_text, profile)[:SCORE_MAX_CANDIDATES]
-        scores = _score_batch(candidates, profile)
-        scored = [_classify(c, s) for c, s in zip(candidates, scores)]
-        logger.info("roles.done", extra={"scored": len(scored)})
-        return {"scored": scored}
+        passes = state.get("refine_passes", 0)
+        seen = {c["hn_id"] for c in state.get("candidates", [])}
+
+        search_text = _find(profile, _ladder_directive(passes))
+        new, new_ids = [], set()
+        for c in _extract(search_text, profile):
+            if c.hn_id in seen or c.hn_id in new_ids:
+                continue
+            new.append(c)
+            new_ids.add(c.hn_id)
+            if len(new) >= SCORE_MAX_CANDIDATES:
+                break
+
+        scores = _score_batch(new, profile)
+        scored = [_classify(c, s) for c, s in zip(new, scores)]
+        logger.info("roles.done", extra={"pass": passes, "scored": len(scored)})
+        return {
+            "candidates": [c.model_dump() for c in new],
+            "scored": scored,
+            "refine_passes": 1,
+        }
     except TRANSIENT_LLM_ERRORS as e:
         logger.warning("roles.transient", extra={"error_type": type(e).__name__})
         return {

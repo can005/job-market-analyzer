@@ -18,12 +18,17 @@ from agents.supervisor import (
     route_next,
     supervisor_node,
 )
+from core.config import MAX_REFINE_PASSES
 from core.logging import TokenUsageCallback, setup_logging
 from core.schemas import AgentResult, InvalidSeamInputError, NoResultsError, Profile
 from core.validators import validate_langsmith_env
 
 logger = logging.getLogger(__name__)
-RECURSION_LIMIT = 10
+
+STEPS_PER_WORKER_RUN = 2
+MAX_WORKER_RUNS = 1 + MAX_REFINE_PASSES
+BACKSTOP_HEADROOM = 6
+RECURSION_LIMIT = STEPS_PER_WORKER_RUN * MAX_WORKER_RUNS + BACKSTOP_HEADROOM
 
 
 def build_graph():
@@ -96,8 +101,8 @@ def run(
 
     return _result(
         status=status,
-        scored=final.get("scored"),
-        market_findings=final.get("market_findings"),
+        scored=final.get("scored") or None,
+        market_findings=final.get("market_findings") or None,
         error=error,
         trace=trace,
     )
