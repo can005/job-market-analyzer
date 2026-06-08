@@ -1,6 +1,7 @@
 """E2E tier — full real graph through the seam. Hits the LLM (and DB), so it is
-slow and nondeterministic; manual/local only, never in routine CI. Fails loud if
-OPENAI_API_KEY is unset (fail-within-tier). Marked 'e2e' automatically by directory.
+slow and nondeterministic; run manually (workflow_dispatch) or on PRs that touch
+tests/e2e/**, never on the default push/PR build. Fails loud if OPENAI_API_KEY is
+unset (fail-within-tier). Marked 'e2e' automatically by directory.
 
 This is a smoke test: it asserts the seam contract holds end to end, not exact
 content (which the model varies)."""

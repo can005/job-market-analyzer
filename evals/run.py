@@ -2,7 +2,7 @@
 run retrieval, deterministic scoring, and reasoning-quality evals, and write a
 single JSON output with metadata + per-case results.
 
-Invoked as `python -m evals`. Idempotent corpus embedding: a sentinel records
+Invoked as `python -m evals.run`. Idempotent corpus embedding: a sentinel records
 `(corpus_hash, embedding_model)` and re-embedding is skipped when both match."""
 
 import hashlib
