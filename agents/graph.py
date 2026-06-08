@@ -99,9 +99,13 @@ def run(
         },
     )
 
+    scored = final.get("scored") or None
+    if scored:
+        scored = sorted(scored, key=lambda r: r.get("total", 0), reverse=True)
+
     return _result(
         status=status,
-        scored=final.get("scored") or None,
+        scored=scored,
         market_findings=final.get("market_findings") or None,
         error=error,
         trace=trace,
