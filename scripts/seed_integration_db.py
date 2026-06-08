@@ -74,9 +74,7 @@ def main() -> None:
     Base.metadata.create_all(engine)
     with Session(engine) as session:
         _upsert(session, Aggregate, AGGREGATE_ROWS, ["date", "job_country", "variable"])
-        _upsert(
-            session, Sector, SECTOR_ROWS, ["date", "job_country", "sector_name", "variable"]
-        )
+        _upsert(session, Sector, SECTOR_ROWS, ["date", "job_country", "sector_name", "variable"])
 
 
 if __name__ == "__main__":

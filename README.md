@@ -84,7 +84,7 @@ The eval splits along the two paths the system actually ships:
 - **Retrieval** — does the vector store rank the right HN postings for a given question? Non-LLM metrics: **hit@k** and **MRR** at the same `k=25` the agent uses.
 - **Ranking** — does the scorer assign the expected band to a known profile/posting pair? A **deterministic** band check (predicted vs expected) always runs; an optional **LLM judge** grades the rationale for rubric match and evidence grounding, catching right-band-via-hallucination cases.
 
-Both run against a frozen 1,679-posting corpus (`tests/fixtures/eval/hn_corpus.json`), a 48-question set weighted 25 / 40 / 35 across `single_fact` / `multi_hop` / `distractor` (`tests/fixtures/eval/questions.json`), and 15 hand-curated scoring cases balanced 5 / 5 / 5 across `strong` / `moderate` / `weak` expected bands (`tests/fixtures/eval/scoring_cases.json`). The embedding and judge models are pinned per run, and a local cache (`data/eval/cache/`) skips re-embedding when nothing changed.
+Both run against a frozen 1,679-posting corpus (`tests/fixtures/eval/hn_corpus.json`), a 48-question set weighted 25 / 40 / 35 across `single_fact` / `multi_hop` / `distractor` (`tests/fixtures/eval/questions.json`), and 15 hand-curated scoring cases balanced 5 / 5 / 5 across `strong` / `moderate` / `weak` expected bands, with case ids prefixed `SS` / `SM` / `SW` respectively — e.g. `SS05` is a strong-band case, `SM05` a moderate one (`tests/fixtures/eval/scoring_cases.json`). The embedding and judge models are pinned per run, and a local cache (`data/eval/cache/`) skips re-embedding when nothing changed.
 
 The judge is **pluggable** via `JUDGE_MODEL` (default `gpt-4o`; accepts `claude-*` with `ANTHROPIC_API_KEY`). Eval runs label which judge produced their results — scores from different judges aren't comparable as one yardstick.
 
@@ -106,7 +106,7 @@ The judge is **pluggable** via `JUDGE_MODEL` (default `gpt-4o`; accepts `claude-
 - `SM05` (Apple Senior DevOps + a junior platform-engineer profile) was authored as a borderline moderate (~2.95 expected band total, 2.50 = moderate floor). The scorer landed at 2.42 → `weak`. Band-edge miss, not a structural failure — the case exists exactly to probe calibration near the floor.
 
 **Reasoning — 0.90 / 0.92** with one flagged case:
-- `SS05` (CLEAR Staff iOS) — judge marked rubric_match 0.75 / evidence_grounded 0.50 because the rationale didn't address seniority. CLEAR's posting is sparse on stack/seniority detail, so the scorer had little to work with. Real signal: when the posting is thin, the rationale degrades even when the band is right. The next iteration is sharpening the scoring prompt to address all four rubric dimensions even when the posting is sparse.
+- `SS05` (CLEAR Staff iOS) — judge marked rubric_match 0.75 / evidence_grounded 0.50 because the rationale didn't address seniority. CLEAR's posting is sparse on stack/seniority detail, so the scorer had little to work with. Real signal: when the posting is thin, the rationale degrades even when the band is right. The scoring prompt now requires the rationale to address all four dimensions by name and to judge seniority against the posting's stated bar even when nothing matches. In repeated trials this reliably closes the coverage gap (SS05 rubric 0.75 → ~0.90 mean) and nudges grounding up — but the 15-case judge's per-case variance (±0.25, the 0.5/0.75/1.0 grid) is too coarse to move the aggregate cleanly, so the headline means stay within noise. SS05's grounded score stays ~0.50: the posting has no seniority content to ground in, a corpus limit rather than a prompt one.
 
 ### Refinement loop — single pass vs broadened loop (scorer: gpt-4o-mini)
 
@@ -213,7 +213,15 @@ LANGSMITH_PROJECT=job-market-analyzer
 FERNET_KEY=...
 ```
 
-### 2. Start services
+### 2. Set up the Python environment
+
+```bash
+bash scripts/setup_env.sh
+```
+
+Creates `venv` and installs all dependencies (base + ingestion + ui + dev) plus the package. Run this before the steps below; then `source venv/bin/activate`.
+
+### 3. Start services
 
 ```bash
 bash scripts/start_services.sh
@@ -221,15 +229,14 @@ bash scripts/start_services.sh
 
 This brings up the pgvector database (`localhost:5433`) and the Airflow stack (`http://localhost:8080`).
 
-### 3. Run the data pipeline
+### 4. Run the data pipeline
 
 Trigger the `job_market_pipeline` and HN DAGs from the Airflow UI to populate the database and embed postings.
 
-### 4. Launch the app
+### 5. Launch the app
 
 ```bash
-pip install -r requirements-base.txt -r requirements-ui.txt
-pip install -e . --no-deps
+source venv/bin/activate
 streamlit run ui/app.py
 ```
 

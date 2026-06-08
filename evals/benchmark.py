@@ -33,9 +33,7 @@ ITERATIONS = 3
 
 def _build_candidates(n: int) -> list[Candidate]:
     corpus = json.loads(CORPUS_PATH.read_text())[:n]
-    return [
-        Candidate(hn_id=p["id"], raw_text=p["text"], required_skills=[]) for p in corpus
-    ]
+    return [Candidate(hn_id=p["id"], raw_text=p["text"], required_skills=[]) for p in corpus]
 
 
 def _time(fn, iterations: int) -> list[float]:
