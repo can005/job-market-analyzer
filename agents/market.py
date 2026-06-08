@@ -9,8 +9,9 @@ from agents.tools import (
     list_market_dimensions,
     query_job_postings,
 )
+from core.config import AGENT_INNER_RECURSION_LIMIT
 from core.errors import TRANSIENT_LLM_ERRORS
-from core.llm import get_chat_llm, get_structured_llm
+from core.llm import get_agent_chat_llm, get_structured_llm
 from core.schemas import MarketSchema
 
 logger = logging.getLogger(__name__)
@@ -31,11 +32,14 @@ _FINDINGS_SYS = (
 
 def _gather(question: str) -> str:
     agent = create_agent(
-        model=get_chat_llm(),
+        model=get_agent_chat_llm(),
         tools=[list_market_dimensions, query_job_postings],
         system_prompt=_MARKET_SYS,
     )
-    result = agent.invoke({"messages": [HumanMessage(question)]})
+    result = agent.invoke(
+        {"messages": [HumanMessage(question)]},
+        config={"recursion_limit": AGENT_INNER_RECURSION_LIMIT},
+    )
     query_text = collect_tool_output(result)
     logger.info("market.gather.done", extra={"query_text_chars": len(query_text)})
     return query_text

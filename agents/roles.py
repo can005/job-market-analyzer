@@ -6,13 +6,14 @@ from langchain_core.messages import HumanMessage
 from agents.supervisor import ROLES
 from agents.tools import collect_tool_output, search_hn_job_postings
 from core.config import (
+    AGENT_INNER_RECURSION_LIMIT,
     SCORE_DIMENSIONS,
     SCORE_MAX_CANDIDATES,
     SCORE_WEIGHTS,
     THRESHOLD_BANDS,
 )
 from core.errors import TRANSIENT_LLM_ERRORS
-from core.llm import get_chat_llm, get_structured_llm
+from core.llm import get_agent_chat_llm, get_structured_llm
 from core.schemas import CandidatesSchema, ScoreSchema
 
 logger = logging.getLogger(__name__)
@@ -95,11 +96,14 @@ _SCORE_SYS = (
 
 def _find(profile: dict) -> str:
     agent = create_agent(
-        model=get_chat_llm(),
+        model=get_agent_chat_llm(),
         tools=[search_hn_job_postings],
         system_prompt=_FIND_SYS,
     )
-    result = agent.invoke({"messages": [HumanMessage(f"Candidate profile: {profile}")]})
+    result = agent.invoke(
+        {"messages": [HumanMessage(f"Candidate profile: {profile}")]},
+        config={"recursion_limit": AGENT_INNER_RECURSION_LIMIT},
+    )
     search_text = collect_tool_output(result)
     logger.info("roles.find.done", extra={"search_text_chars": len(search_text)})
     return search_text
@@ -117,20 +121,33 @@ def _extract(search_text: str, profile: dict) -> list:
     return out.candidates
 
 
+def _score_input_messages(candidate, profile: dict) -> list:
+    return [
+        {"role": "system", "content": _SCORE_SYS},
+        HumanMessage(
+            f"Profile: {profile}\n\n"
+            f"Required skills: {[rs.model_dump() for rs in candidate.required_skills]}\n\n"
+            f"Posting:\n{candidate.raw_text}"
+        ),
+    ]
+
+
 def _score_one(candidate, profile: dict) -> ScoreSchema:
     llm = get_structured_llm(ScoreSchema)
-    score = llm.invoke(
-        [
-            {"role": "system", "content": _SCORE_SYS},
-            HumanMessage(
-                f"Profile: {profile}\n\n"
-                f"Required skills: {[rs.model_dump() for rs in candidate.required_skills]}\n\n"
-                f"Posting:\n{candidate.raw_text}"
-            ),
-        ]
-    )
+    score = llm.invoke(_score_input_messages(candidate, profile))
     logger.info("roles.score.done", extra={"hn_id": candidate.hn_id})
     return score
+
+
+def _score_batch(candidates: list, profile: dict) -> list[ScoreSchema]:
+    if not candidates:
+        return []
+    llm = get_structured_llm(ScoreSchema)
+    inputs = [_score_input_messages(c, profile) for c in candidates]
+    scores = llm.batch(inputs)
+    for c in candidates:
+        logger.info("roles.score.done", extra={"hn_id": c.hn_id})
+    return scores
 
 
 def _classify(candidate, score: ScoreSchema) -> dict:
@@ -160,7 +177,8 @@ def roles_node(state: dict) -> dict:
         profile = state["profile"]
         search_text = _find(profile)
         candidates = _extract(search_text, profile)[:SCORE_MAX_CANDIDATES]
-        scored = [_classify(c, _score_one(c, profile)) for c in candidates]
+        scores = _score_batch(candidates, profile)
+        scored = [_classify(c, s) for c, s in zip(candidates, scores)]
         logger.info("roles.done", extra={"scored": len(scored)})
         return {"scored": scored}
     except TRANSIENT_LLM_ERRORS as e:

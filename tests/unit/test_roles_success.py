@@ -26,7 +26,9 @@ def test_roles_success_returns_scored_list(monkeypatch, valid_profile):
     ]
     monkeypatch.setattr(roles_mod, "_find", lambda profile: "search results text")
     monkeypatch.setattr(roles_mod, "_extract", lambda search_text, profile: candidates)
-    monkeypatch.setattr(roles_mod, "_score_one", lambda candidate, profile: _strong_score())
+    monkeypatch.setattr(
+        roles_mod, "_score_batch", lambda cands, profile: [_strong_score() for _ in cands]
+    )
 
     out = roles_mod.roles_node({"profile": valid_profile.model_dump()})
 
@@ -46,7 +48,9 @@ def test_roles_caps_candidates_at_max(monkeypatch, valid_profile):
     ]
     monkeypatch.setattr(roles_mod, "_find", lambda profile: "search results text")
     monkeypatch.setattr(roles_mod, "_extract", lambda search_text, profile: candidates)
-    monkeypatch.setattr(roles_mod, "_score_one", lambda candidate, profile: _strong_score())
+    monkeypatch.setattr(
+        roles_mod, "_score_batch", lambda cands, profile: [_strong_score() for _ in cands]
+    )
 
     out = roles_mod.roles_node({"profile": valid_profile.model_dump()})
 
