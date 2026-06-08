@@ -13,6 +13,7 @@ from agents.supervisor import (
     route_next,
     supervisor_node,
 )
+from core.config import MAX_REFINE_PASSES
 from core.schemas import Profile, ProfileSkill
 
 
@@ -71,7 +72,9 @@ def make_stub_graph():
 
     def _make(entry_fn=None, roles_fn=None, market_fn=None):
         entry_fn = entry_fn or (lambda s: {"plan": ["scored"]})
-        roles_fn = roles_fn or (lambda s: {"scored": [{"hn_id": 0}]})
+        roles_fn = roles_fn or (
+            lambda s: {"scored": [{"hn_id": 0}], "refine_passes": MAX_REFINE_PASSES}
+        )
         market_fn = market_fn or (lambda s: {"market_findings": [{"statement": "x"}]})
 
         g = StateGraph(AgentState)

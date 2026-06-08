@@ -15,6 +15,7 @@ from langgraph.errors import GraphRecursionError
 
 from agents.graph import run
 from agents.supervisor import ROLES
+from core.config import MAX_REFINE_PASSES
 
 
 def test_empty_question_raises_invalid_seam_input(make_stub_graph, valid_profile):
@@ -28,7 +29,7 @@ def test_empty_question_raises_invalid_seam_input(make_stub_graph, valid_profile
 def test_ok_when_plan_fully_filled(make_stub_graph, valid_profile):
     graph = make_stub_graph(
         entry_fn=lambda s: {"plan": ["scored"]},
-        roles_fn=lambda s: {"scored": [{"hn_id": 0}]},
+        roles_fn=lambda s: {"scored": [{"hn_id": 0}], "refine_passes": MAX_REFINE_PASSES},
     )
     result = run(graph, "find roles", valid_profile)
     assert result.status == "ok"

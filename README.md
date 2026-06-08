@@ -108,13 +108,30 @@ The judge is **pluggable** via `JUDGE_MODEL` (default `gpt-4o`; accepts `claude-
 **Reasoning — 0.90 / 0.92** with one flagged case:
 - `SS05` (CLEAR Staff iOS) — judge marked rubric_match 0.75 / evidence_grounded 0.50 because the rationale didn't address seniority. CLEAR's posting is sparse on stack/seniority detail, so the scorer had little to work with. Real signal: when the posting is thin, the rationale degrades even when the band is right. The next iteration is sharpening the scoring prompt to address all four rubric dimensions even when the posting is sparse.
 
+### Refinement loop — single pass vs broadened loop (scorer: gpt-4o-mini)
+
+The roles worker is the one piece doing *dynamic orchestration*: when a pass returns too few strong matches, the supervisor re-dispatches it on a hard-coded broadening ladder (relax logistics → adjacent skills → larger `k` → reformulate), accumulating candidates and deduping by HN id, until one of three guards trips (3 strong found · 3 passes · 12 candidates). This measures whether broadening actually earns its extra calls on deliberately narrow profiles, against the single-pass (pass 0) baseline.
+
+| Profile (narrow by design) | Pass 0 | Full loop | Δ relevant |
+|---|---|---|---|
+| Rust + embedded · onsite Berlin | 5 cands, 3 relevant (0 strong) | 3 passes → 11 cands, 6 relevant (0 strong) | **+3** |
+| Python + React full-stack · remote US | 5 cands, 5 relevant (2 strong) | 3 passes → 9 cands, 9 relevant (3 strong) | **+4** |
+| Haskell + type theory · remote EU | 1 cand, 1 relevant | 3 passes → 4 cands, 4 relevant | **+3** |
+
+**What it says.** On every narrow profile the loop surfaces +3–4 more *relevant* (non-weak) postings than the first pass alone, and on the full-stack profile broadening lifts the strong count 2 → 3. Widening recalls matches a single query doesn't.
+
+**What it costs.** Relaxing constraints also pulls in weaker candidates, so the mean band total dips slightly (e.g. 3.75 → 3.57) — recall up, raw-pool precision down. The weighted score still floats the strong/moderate postings to the top of the user-facing ranking, but the candidate pool gets noisier. All three ran the full three passes; only the full-stack profile reached the 3-strong good-enough threshold (and only on the final pass), so on the narrower two the count cap is what bounds the work — the corpus simply lacks 3 strong matches and the loop doesn't chase what isn't there.
+
+**Run-to-run variance.** Unlike the retrieval/ranking evals, this path is *not* deterministic — the agent composes its own search queries and the scorer is an LLM, so the absolute counts move between runs (a separate run had the full-stack pass 0 at 0 strong, not 2). What's stable across runs is the **sign and rough size of the delta**: every profile gains +2–4 relevant postings from broadening. Profiles here are illustrative narrow inputs in `evals/refine_eval.py`, not gold-labeled like the question set.
+
 ### Reproduce
 
 ```bash
-python -m evals.run
+python -m evals.run           # retrieval + ranking quality
+python -m evals.refine_eval   # refinement loop: pass 0 vs full loop, per profile
 ```
 
-Output: one JSON per run to `data/eval/results/` with run_id, embedding/judge model metadata, corpus hash, per-question + per-case results, and the summary metrics above. No CI gating — the eval is read for what its per-question failures reveal, not used as a pass/fail threshold.
+`evals.run` writes one JSON per run to `data/eval/results/` with run_id, embedding/judge model metadata, corpus hash, per-question + per-case results, and the summary metrics above. No CI gating — the eval is read for what its per-question failures reveal, not used as a pass/fail threshold. `evals.refine_eval` drives the real roles worker against the frozen eval collection and makes many live LLM calls.
 
 ---
 
